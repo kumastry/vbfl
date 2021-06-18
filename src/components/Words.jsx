@@ -22,7 +22,6 @@ const Cardcontent = () => {
         setWordState(data);
         console.log(wordState);
     }
-
     return(
       
         <IonContent>
