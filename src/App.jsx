@@ -9,19 +9,12 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-<<<<<<< HEAD:src/App.jsx
-import { ellipse, square, triangle, book } from 'ionicons/icons';
-=======
-import { ellipse, square, triangle, settings, settingsOutline } from 'ionicons/icons';
->>>>>>> 59389ef1c29be3d65a5df9343570242bc0225286:src/App.tsx
+import { ellipse, square, build, book } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Quiz';
 import Tab3 from './pages/Tab3';
-<<<<<<< HEAD:src/App.jsx
+import Tab4 from './pages/Settings';
 import Words from './components/Words';
-=======
-import Tab4 from './pages/Tab4';
->>>>>>> 59389ef1c29be3d65a5df9343570242bc0225286:src/App.tsx
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -59,13 +52,11 @@ const App = () => (
           <Route path="/tab3">
             <Tab3 />
           </Route>
-<<<<<<< HEAD:src/App.jsx
-    
-=======
+
           <Route path="/settings">
             <Tab4 />
           </Route>
->>>>>>> 59389ef1c29be3d65a5df9343570242bc0225286:src/App.tsx
+    
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
@@ -91,14 +82,11 @@ const App = () => (
             <IonIcon icon={square} />
             <IonLabel>Tab 3</IonLabel>
           </IonTabButton>
-<<<<<<< HEAD:src/App.jsx
 
-=======
           <IonTabButton tab="settings" href="/settings">
-            <IonIcon icon={settings} />
-            <IonLabel>settings</IonLabel>
+            <IonIcon icon={build} />
+            <IonLabel>設定</IonLabel>
           </IonTabButton>
->>>>>>> 59389ef1c29be3d65a5df9343570242bc0225286:src/App.tsx
         </IonTabBar>
       </IonTabs>
 
