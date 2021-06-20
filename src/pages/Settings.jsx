@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 
-const Quiz = () => {
+const Settings = () => {
     return (
       <IonPage>
         <IonHeader>
@@ -21,4 +21,4 @@ const Quiz = () => {
     );
   };
   
-  export default Quiz;
+  export default Settings;
