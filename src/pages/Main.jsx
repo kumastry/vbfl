@@ -3,7 +3,7 @@ import Addbutton from '../components/Addbutton';
 import Card from '../components/Card';
 import Header from '../components/Header';
 import Cardcontent from '../components/Cardcontent';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const MainPage = () => {
 
@@ -15,12 +15,29 @@ const MainPage = () => {
     setShowModal(true);
   }
 
-  const deleteCard = (key) => {
-    let tmp = wordCards.slice(0, wordCards.length);
-    tmp.splice(key, 1);
+  const deleteCard = (i) => {
+    console.log(i);
+    const tmp = [...wordCards];
+    tmp.splice(i, 1);
     setWordCards(tmp);
   }
 
+  const addWord = (word, key) => {
+    //word = {word:string, translate:string}
+    const tmp = wordCards.slice(0, wordCards.length);
+    tmp[key]['wordcnt'].push(word);
+  }
+
+  useEffect(() => {
+    if(localStorage.array){ 
+      const saveDate = JSON.parse(localStorage.array);
+      setWordCards(saveDate);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('array', JSON.stringify(wordCards));
+  },[wordCards]);
 
   return (
     <IonPage>
@@ -29,17 +46,20 @@ const MainPage = () => {
 
         <IonList>
           {wordCards.map((content, key) => {
-            return <Card cardContent = {content} key = {key} deleteCard = {deleteCard}/>;
+            console.log(key);
+            return (
+             <Card cardContent = {content} idx = {key} deleteCard = {deleteCard}/>
+             );
           })}
         </IonList>
 
+        
         <IonAlert 
         isOpen = {showModal} 
         onDidDismiss={() => setShowModal(false)}
         cssClass='my-custom-class'
-        header={'Alert'}
-        message={'This is an alert message.'}
-
+        header={'単語帳を新たに追加'}
+      
         inputs = { [{
           name:'name',
           type:'text',
@@ -54,9 +74,11 @@ const MainPage = () => {
           text:'OK',
           handler: data => {
             console.log(data.name);
-            let bookdata = wordCards;
+            if(data.name.length > 0) {
+            let bookdata = [...wordCards];
             bookdata.unshift({title:data.name});
             setWordCards(bookdata);
+            }
           }
         } ]}
         />

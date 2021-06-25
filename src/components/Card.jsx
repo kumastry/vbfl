@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { IonActionSheet, IonButton, IonCard, IonCardHeader, IonCardTitle } from "@ionic/react"
-import { trash, share, caretForwardCircle, heart, close } from 'ionicons/icons';
+import { IonItem,IonActionSheet, IonButton, IonCard, IonCardHeader, IonCardTitle, IonModal,IonContent } from "@ionic/react"
+import { trash, share, caretForwardCircle, heart, close} from 'ionicons/icons';
+import Cardcontent from './Cardcontent';
+import ModalHeader from './ModalHeader';
 
-
-const Card= (props) => {
+const Card = (props) => {
+    const [word, setWord] = useState([]);
     const [showActionSheet, setShowActionSheet] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    console.log(props.idx);
     return (
-        <IonCard onClick={() => setShowActionSheet(true)}>
+        <div>
+        <IonItem onClick={() => setShowActionSheet(true)}>
+
             <IonCardHeader>
             <IonCardTitle>{props.cardContent.title}</IonCardTitle>
             </IonCardHeader>
+
             <IonActionSheet
             isOpen={showActionSheet}
             onDidDismiss={() => setShowActionSheet(false)}
@@ -19,18 +26,29 @@ const Card= (props) => {
                     role:'destructive',
                     icon: trash,
                     handler: () => {
-                        props.deleteCard(props.key);
+                        console.log(props.idx);
+                        props.deleteCard(props.idx);
                     }
                 },
                 {
-                    text: 'Play (open modal)',
+                    text: '単語帳を見る',
                     icon: caretForwardCircle,  
                     handler: () => {
-                        document.location.href = "./tab1/words";
+                        //モーダルの表示
+                        setShowModal(true);
+                    }
+                },
+
+                {
+                    text:'単語を追加',
+                    icon: caretForwardCircle,  
+                    handler: () => {
+                        //モーダルの表示
+                        window.location.href = "quiz";
                     }
                 },
                 {
-                    text:'Cancel',
+                    text:'キャンセル',
                     role:'cancel',
                     icon: close,
                 },
@@ -38,7 +56,16 @@ const Card= (props) => {
             ]}>
 
             </IonActionSheet>
-        </IonCard>
+            </IonItem>
+
+            <IonModal isOpen={showModal}  swipeToClose={true} style={{position:"absolute", top: "80%"}}>
+
+                <ModalHeader setShowModal ={setShowModal}/>
+                <Cardcontent/>
+            </IonModal>
+        
+            </div>
+
     )
 }
 
