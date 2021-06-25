@@ -9,12 +9,11 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle, book } from 'ionicons/icons';
-import Tab1 from './pages/Main';
-import Tab2 from './pages/Quiz';
-import Tab3 from './pages/Tab3';
+
+
+
 import { ellipse, square, build, book } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
+import Tab1 from './pages/Main';
 import Tab2 from './pages/Quiz';
 import Tab3 from './pages/Tab3';
 import Tab4 from './pages/Settings';

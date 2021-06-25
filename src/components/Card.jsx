@@ -3,11 +3,12 @@ import { IonItem,IonActionSheet, IonButton, IonCard, IonCardHeader, IonCardTitle
 import { trash, share, caretForwardCircle, heart, close} from 'ionicons/icons';
 import Cardcontent from './Cardcontent';
 import ModalHeader from './ModalHeader';
-
+import AddContent from './AddContent';
 const Card = (props) => {
-    const [word, setWord] = useState([]);
     const [showActionSheet, setShowActionSheet] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [addModal,setAddModal] = useState(false);
+
     console.log(props.idx);
     return (
         <div>
@@ -44,7 +45,7 @@ const Card = (props) => {
                     icon: caretForwardCircle,  
                     handler: () => {
                         //モーダルの表示
-                        window.location.href = "quiz";
+                        setAddModal(true);
                     }
                 },
                 {
@@ -57,12 +58,17 @@ const Card = (props) => {
 
             </IonActionSheet>
             </IonItem>
-
+            <IonModal isOpen={addModal} swipeToClose={true}  style={{position:"absolute", top: "80%"}}>
+                <ModalHeader setShowModal={setAddModal}/>
+                <AddContent />  
+            </IonModal>
+            
             <IonModal isOpen={showModal}  swipeToClose={true} style={{position:"absolute", top: "80%"}}>
-
                 <ModalHeader setShowModal ={setShowModal}/>
                 <Cardcontent/>
             </IonModal>
+
+
         
             </div>
 
