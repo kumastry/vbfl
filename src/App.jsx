@@ -13,6 +13,11 @@ import { ellipse, square, triangle, book } from 'ionicons/icons';
 import Tab1 from './pages/Main';
 import Tab2 from './pages/Quiz';
 import Tab3 from './pages/Tab3';
+import { ellipse, square, build, book } from 'ionicons/icons';
+import Tab1 from './pages/Tab1';
+import Tab2 from './pages/Quiz';
+import Tab3 from './pages/Tab3';
+import Tab4 from './pages/Settings';
 import Words from './components/Words';
 
 /* Core CSS required for Ionic components to work properly */
@@ -51,6 +56,10 @@ const App = () => (
           <Route path="/tab3">
             <Tab3 />
           </Route>
+
+          <Route path="/settings">
+            <Tab4 />
+          </Route>
     
           <Route exact path="/">
             <Redirect to="/tab1" />
@@ -76,6 +85,11 @@ const App = () => (
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={square} />
             <IonLabel>Tab 3</IonLabel>
+          </IonTabButton>
+
+          <IonTabButton tab="settings" href="/settings">
+            <IonIcon icon={build} />
+            <IonLabel>設定</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

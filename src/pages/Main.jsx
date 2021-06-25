@@ -6,8 +6,6 @@ import Cardcontent from '../components/Cardcontent';
 import React, { useState, useEffect } from 'react';
 
 const MainPage = () => {
-
-
   const [showModal, setShowModal] = useState(false);
   const [wordCards, setWordCards] = useState([]);
   
