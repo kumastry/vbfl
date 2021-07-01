@@ -8,6 +8,7 @@ const Quiz = () => {
     if (localStorage.array) { 
       const saveDate = JSON.parse(localStorage.array);
       setWordCards(saveDate);
+      console.log(saveDate)
     }
   }, []);
   return (
@@ -18,7 +19,7 @@ const Quiz = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-      <IonHeader collapse="condense">
+        <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">クイズ</IonTitle>
           </IonToolbar>
@@ -27,7 +28,7 @@ const Quiz = () => {
         <IonList>
           {wordCards.map((content, key) => {
             return (
-              <IonItem key={key}>
+              <IonItem key={key} href="/quiz/ready">
                 <IonCardHeader>
                   <IonCardTitle>{content.title}</IonCardTitle>
                 </IonCardHeader>
