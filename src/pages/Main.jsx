@@ -35,19 +35,17 @@ const MainPage = () => {
 
   useEffect(() => {
     localStorage.setItem('array', JSON.stringify(wordCards));
-  },[wordCards]);
-
+  }, [wordCards]);
   return (
     <IonPage>
       <Header/>
       <IonContent>
-
         <IonList>
           {wordCards.map((content, key) => {
             console.log(key);
             return (
-             <Card cardContent = {content} idx = {key} deleteCard = {deleteCard}/>
-             );
+              <Card cardContent = {content} idx = {key} deleteCard = {deleteCard}/>
+            );
           })}
         </IonList>
 
@@ -72,10 +70,10 @@ const MainPage = () => {
           text:'OK',
           handler: data => {
             console.log(data.name);
-            if(data.name.length > 0) {
-            let bookdata = [...wordCards];
-            bookdata.unshift({title:data.name});
-            setWordCards(bookdata);
+            if (data.name.length > 0) {
+              let bookdata = [...wordCards];
+              bookdata.unshift({title:data.name});
+              setWordCards(bookdata);
             }
           }
         } ]}

@@ -8,13 +8,12 @@ const Card = (props) => {
     const [word, setWord] = useState([]);
     const [showActionSheet, setShowActionSheet] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    console.log(props.idx);
     return (
         <div>
         <IonItem onClick={() => setShowActionSheet(true)}>
 
             <IonCardHeader>
-            <IonCardTitle>{props.cardContent.title}</IonCardTitle>
+                <IonCardTitle>{props.cardContent.title}</IonCardTitle>
             </IonCardHeader>
 
             <IonActionSheet
