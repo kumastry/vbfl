@@ -44,8 +44,8 @@ const MainPage = () => {
           {wordCards.map((content, key) => {
             console.log(key);
             return (
-              <Card cardContent = {content} idx = {key} deleteCard = {deleteCard}/>
-            );
+             <Card wordCards = {wordCards} cardContent = {content} idx = {key} deleteCard = {deleteCard}/>
+             );
           })}
         </IonList>
 
