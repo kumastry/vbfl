@@ -73,7 +73,7 @@ const App = () => (
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
             <IonIcon icon={book} />
-            <IonLabel>Tab 1</IonLabel>
+            <IonLabel>メイン</IonLabel>
           </IonTabButton>
 
           <IonTabButton tab="quiz" href="/quiz">
