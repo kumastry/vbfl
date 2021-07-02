@@ -9,15 +9,13 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-
-
-
 import { ellipse, square, build, book } from 'ionicons/icons';
 import Tab1 from './pages/Main';
 import Tab2 from './pages/Quiz';
 import Tab3 from './pages/Tab3';
-import Tab4 from './pages/Settings';
+import Settings from './pages/Settings';
 import Words from './components/Words';
+import Ready from "./components/Ready";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -57,7 +55,7 @@ const App = () => (
           </Route>
 
           <Route path="/settings">
-            <Tab4 />
+            <Settings />
           </Route>
     
           <Route exact path="/">
@@ -67,6 +65,8 @@ const App = () => (
           <Route exact path="/tab1/words">
             <Words />
           </Route>
+
+          <Route exact path="/quiz/ready" component={Ready} />
 
         </IonRouterOutlet>
 

@@ -15,7 +15,7 @@ const Card = (props) => {
         <IonItem onClick={() => setShowActionSheet(true)}>
 
             <IonCardHeader>
-            <IonCardTitle>{props.cardContent.title}</IonCardTitle>
+                <IonCardTitle>{props.cardContent.title}</IonCardTitle>
             </IonCardHeader>
 
             <IonActionSheet
