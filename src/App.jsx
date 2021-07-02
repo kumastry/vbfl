@@ -61,7 +61,7 @@ const App = () => {
               <Redirect to="/tab1" />
             </Route>
 
-            <Route exact path="/quiz/ready" component={Ready} />
+            <Route path="/quiz/ready/:target" component={Ready} />
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">

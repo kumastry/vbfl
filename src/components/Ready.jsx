@@ -9,23 +9,41 @@ import {
   IonCard,
   IonLabel,
   IonItem,
+  useIonViewWillEnter,
 } from "@ionic/react";
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
 
 const Ready = () => {
-  const location = useLocation();
+  const params = useParams();
+  const target = Number(params.target);
   const [four, setFour] = useState(false); // toggleをdisableにするためのstate
+  const [wordCards, setWordCards] = useState([]);
+
+  useIonViewWillEnter(() => {
+    const targetKey = "array";
+    if (targetKey in localStorage) {
+      const saveDate = JSON.parse(localStorage[targetKey]);
+      setWordCards([...saveDate]);
+    }
+    // console.log("hello");
+  });
+  // console.log(wordCards);
+  // if (!(wordCards.length > 0)) {
+  //   return null;
+  // }
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>unko</IonTitle>
+          <IonTitle>{wordCards.length > 0 && wordCards[target].title}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">unko</IonTitle>
+            <IonTitle size="large">
+              {wordCards.length > 0 && wordCards[target].title}
+            </IonTitle>
           </IonToolbar>
         </IonHeader>
         {/*<ExploreContainer name="Tab 2 page" />*/}

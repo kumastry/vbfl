@@ -43,9 +43,9 @@ const Cardcontent = () => {
     >
       {array.map((i) => {
         return (
-          <IonSlide>
+          <IonSlide key={i}>
             <IonCard style={{ width: "90%", height: "70%" }}>
-              <IonCardContent key={i}>
+              <IonCardContent>
                 <h1>{i}</h1>
                 <p>
                   <br />

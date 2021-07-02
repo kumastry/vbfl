@@ -46,7 +46,7 @@ const Quiz = () => {
         <IonList>
           {wordCards.map((content, key) => {
             return (
-              <IonItem key={key} routerLink="/quiz/ready?a=hello">
+              <IonItem key={key} routerLink={`/quiz/ready/${key}`}>
                 <IonCardHeader>
                   <IonCardTitle>{content.title}</IonCardTitle>
                 </IonCardHeader>

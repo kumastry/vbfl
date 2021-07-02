@@ -1,4 +1,14 @@
-import { IonContent, IonList, IonPage, IonAlert, IonItem } from "@ionic/react";
+import {
+  IonContent,
+  IonList,
+  IonPage,
+  IonAlert,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonBackButton,
+  IonButtons,
+} from "@ionic/react";
 import Addbutton from "../components/Addbutton";
 import Card from "../components/Card";
 import Header from "../components/Header";
@@ -27,7 +37,6 @@ const MainPage = () => {
 
   useEffect(() => {
     if (localStorage.array) {
-      console.log(localStorage.array);
       const saveDate = JSON.parse(localStorage.array);
       setWordCards(saveDate);
     }
@@ -39,8 +48,17 @@ const MainPage = () => {
 
   return (
     <IonPage>
-      <Header />
-      <IonContent>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>単語帳一覧</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">単語帳一覧</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <IonList>
           {wordCards.map((content, key) => {
             return (
