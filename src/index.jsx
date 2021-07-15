@@ -4,11 +4,17 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import "bulma/css/bulma.css";
+import store from './app/store'
+import { Provider } from 'react-redux';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  
+ 
+    <Provider store = {store}>
+      <App />
+    </Provider>
+ 
+  ,
   document.getElementById('root')
 );
 

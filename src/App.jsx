@@ -14,8 +14,10 @@ import Tab1 from './pages/Main';
 import Tab2 from './pages/Quiz';
 import Tab3 from './pages/Tab3';
 import Settings from './pages/Settings';
-import Words from './components/Words';
+import Cardcontent from './components/Cardcontent';
 import Ready from "./components/Ready";
+import AddContent from "./components/AddContent"
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,10 +44,10 @@ const App = () => (
       <IonTabs>
         
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-
+          <Route exact path="/tab1"  component = {Tab1} />
+          <Route exact path = "/tab1/words/:cardId" component = {Cardcontent}/>
+          <Route exact path = "/tab1/add/:cardId" component = {AddContent}/>
+          
           <Route exact path="/quiz">
             <Tab2 />
           </Route>
@@ -62,12 +64,10 @@ const App = () => (
             <Redirect to="/tab1" />
           </Route>
 
-          <Route exact path="/tab1/words">
-            <Words />
-          </Route>
-
           <Route exact path="/quiz/ready" component={Ready} />
+         
 
+          <Route><p>Not Found</p></Route>
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">

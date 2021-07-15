@@ -3,50 +3,45 @@ import Addbutton from '../components/Addbutton';
 import Card from '../components/Card';
 import Header from '../components/Header';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { nanoid } from '@reduxjs/toolkit'
+
+import { addCard } from '../slices/cardSlice';
+import CardsList from '../components/CardsList';
 
 const MainPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const [wordCards, setWordCards] = useState([]);
+  const dispatch = useDispatch();
   
+
+  const dispatchCard = (title) => {
+    console.log("FFF");
+    
+    if (title.length > 0) {
+      console.log(title);
+      dispatch(
+        addCard({
+            id: nanoid(),
+            title,
+            content:[],
+          })
+      )
+    }
+  }
+
   const handleClick= () => {
     setShowModal(true);
   }
 
-  const deleteCard = (i) => {
-    console.log(i);
-    const tmp = [...wordCards];
-    tmp.splice(i, 1);
-    setWordCards(tmp);
-  }
 
-  const addWord = (word, key) => {
-    //word = {word:string, translate:string}
-    const tmp = wordCards.slice(0, wordCards.length);
-    tmp[key]['wordcnt'].push(word);
-  }
-
-  useEffect(() => {
-    if(localStorage.array){ 
-      const saveDate = JSON.parse(localStorage.array);
-      setWordCards(saveDate);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('array', JSON.stringify(wordCards));
-  }, [wordCards]);
   return (
     <IonPage>
       <Header/>
       <IonContent>
-        <IonList>
-          {wordCards.map((content, key) => {
-            console.log(key);
-            return (
-             <Card wordCards = {wordCards} cardContent = {content} idx = {key} deleteCard = {deleteCard}/>
-             );
-          })}
-        </IonList>
+
+      
+
+        <CardsList/>
 
         
         <IonAlert 
@@ -67,18 +62,11 @@ const MainPage = () => {
         },
         {
           text:'OK',
-          handler: data => {
-            console.log(data.name);
-            if (data.name.length > 0) {
-              let bookdata = [...wordCards];
-              bookdata.unshift({title:data.name});
-              setWordCards(bookdata);
-            }
-          }
+          handler: data => dispatchCard(data.name)
         } ]}
         />
-
         <Addbutton handleClick = {handleClick}/>
+
       </IonContent>
     </IonPage>
   );
