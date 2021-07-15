@@ -6,8 +6,8 @@ import Addbutton from './Addbutton';
 import { useSelector } from 'react-redux';
 
 const SlideOpts = {
-    initialSlide:0,
-    speed:500
+  initialSlide: 0,
+  speed: 500,
 };
 
 

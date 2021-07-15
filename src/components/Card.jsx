@@ -14,10 +14,12 @@ const Card = (props) => {
     const history = useHistory();
     const wordCards = useSelector(state => state.card);
 
-    console.log(props.idx);
-    return (
-        <div>
-        <IonItem onClick={() => setShowActionSheet(true)}>
+  return (
+    <div>
+      <IonItem onClick={() => setShowActionSheet(true)}>
+        <IonCardHeader>
+          <IonCardTitle>{props.cardContent.title}</IonCardTitle>
+        </IonCardHeader>
 
             <IonCardHeader>
                 <IonCardTitle>{props.cardContent["title"]}</IonCardTitle>
@@ -60,24 +62,5 @@ const Card = (props) => {
                 },
           
             ]}>
-
-            </IonActionSheet>
-            </IonItem>
-            <IonModal isOpen={addModal} swipeToClose={true}  style={{position:"absolute", top: "80%"}}>
-                <ModalHeader setShowModal={setAddModal}/>
-                <AddContent />  
-            </IonModal>
-            
-            <IonModal isOpen={showModal}  swipeToClose={true} style={{position:"absolute", top: "80%"}}>
-                <ModalHeader setShowModal ={setShowModal}/>
-                <Cardcontent/>
-            </IonModal>
-
-
-        
-            </div>
-
-    )
-}
 
 export default Card;

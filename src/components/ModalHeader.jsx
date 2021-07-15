@@ -1,16 +1,24 @@
-import {IonHeader, IonToolbar, IonTitle, IonBackButton, IonButtons} from "@ionic/react";
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonButton,
+} from "@ionic/react";
 
 const ModalHeader = (props) => {
-    return (
-        <IonHeader>
-            <IonToolbar>
-              <IonTitle>wordcards</IonTitle>
-              <IonButtons slot="start">
-                  <IonBackButton  onClick={()=>props.setShowModal(false)} />
-              </IonButtons>
-            </IonToolbar>
-        </IonHeader>
-    )
-}
+  return (
+    <IonHeader>
+      <IonToolbar>
+        <IonTitle>wordcards</IonTitle>
+        <IonButtons slot="start">
+          <IonButton onClick={() => props.setShowModal(false)}>
+            閉じる
+          </IonButton>
+        </IonButtons>
+      </IonToolbar>
+    </IonHeader>
+  );
+};
 
 export default ModalHeader;
