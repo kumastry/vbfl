@@ -14,6 +14,9 @@ const Card = (props) => {
     const history = useHistory();
     const wordCards = useSelector(state => state.card);
 
+
+
+
   return (
     <div>
       <IonItem onClick={() => setShowActionSheet(true)}>
@@ -61,6 +64,9 @@ const Card = (props) => {
                     icon: close,
                 },
           
-            ]}>
+            ]}/>
+        </IonItem>
+    </div>);
+}
 
 export default Card;
