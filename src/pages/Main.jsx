@@ -1,6 +1,5 @@
 import { IonContent, IonList, IonPage, IonAlert, IonItem } from "@ionic/react";
 import Addbutton from "../components/Addbutton";
-import Card from "../components/Card";
 import Header from "../components/Header";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

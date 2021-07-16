@@ -72,6 +72,13 @@ const Ready = () => {
             </IonLabel>
             <IonToggle disabled={four} value="strict" />
           </IonItem>
+          <IonItem>
+            <IonLabel>
+              <h2>単語を裏返す</h2>
+              <p>単語帳の訳を表にします。。</p>
+            </IonLabel>
+            <IonToggle value="reversed" />
+          </IonItem>
         </IonCard>
       </IonContent>
     </IonPage>
