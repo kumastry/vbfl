@@ -11,10 +11,11 @@ import {
 import { IonReactRouter } from "@ionic/react-router";
 import { ellipse, square, build, book } from "ionicons/icons";
 import Tab1 from "./pages/Main";
-import Tab2 from "./pages/Quiz";
+// import Tab2 from "./pages/Quiz";
 import Tab3 from "./pages/Tab3";
 import Settings from "./pages/Settings";
 import Ready from "./components/Ready";
+import NotFound from "./components/NotFound";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -45,9 +46,9 @@ const App = () => {
               <Tab1 />
             </Route>
 
-            <Route exact path="/quiz">
+            {/* <Route exact path="/quiz">
               <Tab2 />
-            </Route>
+            </Route> */}
 
             <Route exact path="/tab3">
               <Tab3 />
@@ -62,6 +63,8 @@ const App = () => {
             </Route>
 
             <Route path="/quiz/ready/:target" component={Ready} />
+
+            <Route component={NotFound} />
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
@@ -70,10 +73,10 @@ const App = () => {
               <IonLabel>メイン</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="quiz" href="/quiz">
+            {/* <IonTabButton tab="quiz" href="/quiz">
               <IonIcon icon={ellipse} />
               <IonLabel>クイズ</IonLabel>
-            </IonTabButton>
+            </IonTabButton> */}
 
             <IonTabButton tab="tab3" href="/tab3">
               <IonIcon icon={square} />
