@@ -1,110 +1,72 @@
-import {
-  IonContent,
-  IonList,
-  IonPage,
-  IonAlert,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonBackButton,
-  IonButtons,
-} from "@ionic/react";
-import Addbutton from "../components/Addbutton";
-import Card from "../components/Card";
-import Header from "../components/Header";
-import React, { useState, useEffect } from "react";
+import { IonContent, IonList, IonPage, IonAlert, IonItem} from '@ionic/react';
+import Addbutton from '../components/Addbutton';
+import Card from '../components/Card';
+import Header from '../components/Header';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { nanoid } from '@reduxjs/toolkit'
+
+import { addCard } from '../slices/cardSlice';
+import CardsList from '../components/CardsList';
 
 const MainPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const [wordCards, setWordCards] = useState([]);
+  const dispatch = useDispatch();
+  
 
-  const handleClick = () => {
-    setShowModal(true);
-  };
-
-  const deleteCard = (i) => {
-    console.log(i);
-    const tmp = [...wordCards];
-    tmp.splice(i, 1);
-    setWordCards(tmp);
-  };
-
-  const addWord = (word, key) => {
-    //word = {word:string, translate:string}
-    const tmp = wordCards.slice(0, wordCards.length);
-    tmp[key]["wordcnt"].push(word);
-  };
-
-  useEffect(() => {
-    if (localStorage.array) {
-      const saveDate = JSON.parse(localStorage.array);
-      setWordCards(saveDate);
+  const dispatchCard = (title) => {
+    console.log("FFF");
+    
+    if (title.length > 0) {
+      console.log(title);
+      dispatch(
+        addCard({
+            id: nanoid(),
+            title,
+            content:[],
+          })
+      )
     }
-  }, []);
+  }
 
-  useEffect(() => {
-    localStorage.setItem("array", JSON.stringify(wordCards));
-  }, [wordCards]);
+  const handleClick= () => {
+    setShowModal(true);
+  }
+
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>単語帳一覧</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">単語帳一覧</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonList>
-          {wordCards.map((content, key) => {
-            return (
-              <Card
-                key={key}
-                wordCards={wordCards}
-                cardContent={content}
-                idx={key}
-                deleteCard={deleteCard}
-              />
-            );
-          })}
-        </IonList>
+      <Header/>
+      <IonContent>
 
-        <IonAlert
-          isOpen={showModal}
-          onDidDismiss={() => setShowModal(false)}
-          cssClass="my-custom-class"
-          header={"単語帳を新たに追加"}
-          inputs={[
-            {
-              name: "name",
-              type: "text",
-              placeholder: "名前",
-            },
-          ]}
-          buttons={[
-            {
-              text: "キャンセル",
-              role: "cancel",
-            },
-            {
-              text: "OK",
-              handler: (data) => {
-                console.log(data.name);
-                if (data.name.length > 0) {
-                  let bookdata = [...wordCards];
-                  bookdata.unshift({ title: data.name });
-                  setWordCards(bookdata);
-                }
-              },
-            },
-          ]}
+      
+
+        <CardsList/>
+
+        
+        <IonAlert 
+        isOpen = {showModal} 
+        onDidDismiss={() => setShowModal(false)}
+        cssClass='my-custom-class'
+        header={'単語帳を新たに追加'}
+      
+        inputs = { [{
+          name:'name',
+          type:'text',
+          placeholder: '名前'
+        }] }
+        
+        buttons={[{
+          text:'キャンセル',
+          role: 'cancel'
+        },
+        {
+          text:'OK',
+          handler: data => dispatchCard(data.name)
+        } ]}
         />
+        <Addbutton handleClick = {handleClick}/>
 
-        <Addbutton handleClick={handleClick} />
       </IonContent>
     </IonPage>
   );
