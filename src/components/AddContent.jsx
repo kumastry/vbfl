@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   IonList,
   IonItem,
@@ -7,11 +7,15 @@ import {
   IonItemDivider,
   IonLabel,
   IonToast,
-  IonFab,
-  IonFabButton,
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
   IonButton,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/react";
-import { pin, wifi, wine, warning, walk, add } from "ionicons/icons";
 import Addbutton from "./Addbutton";
 import { useDispatch, useSelector } from "react-redux";
 import { addWord } from "../slices/cardSlice";
@@ -22,6 +26,10 @@ const AddContent = ({ match }) => {
   const [toast1, setToast1] = useState(false);
   const dispatch = useDispatch();
   const Id = match.params;
+
+  const id = match.params.cardId;
+  const WS = useSelector((state) => state.cards.card);
+  const Words = WS.find((data) => data.id === id);
 
   const translatehandle = async () => {
     const res = await fetch(
@@ -52,47 +60,64 @@ const AddContent = ({ match }) => {
   };
 
   return (
-    <IonList style={{ height: "80%" }}>
-      <IonItemDivider>
-        <IonLabel>
-          <h1 style={{ color: "black" }}>単語を追加</h1>
-        </IonLabel>
-      </IonItemDivider>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>{Words.title}</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab1" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">{Words.title}</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonList style={{ height: "80%" }}>
+          <IonItemDivider>
+            <IonLabel>
+              <h1 style={{ color: "black" }}>単語を追加</h1>
+            </IonLabel>
+          </IonItemDivider>
 
-      <IonItem>
-        <IonInput
-          value={wordtext}
-          placeholder="単語を入力"
-          onIonChange={(e) => {
-            setWordText(e.target.value);
-          }}
-        ></IonInput>
-      </IonItem>
+          <IonItem>
+            <IonInput
+              value={wordtext}
+              placeholder="単語を入力"
+              onIonChange={(e) => {
+                setWordText(e.target.value);
+              }}
+            ></IonInput>
+          </IonItem>
 
-      <IonItem>
-        <IonTextarea
-          value={transtext}
-          placeholder="訳を入力"
-          onIonChange={(e) => {
-            setTransText(e.target.value);
-          }}
-        ></IonTextarea>
-      </IonItem>
+          <IonItem>
+            <IonTextarea
+              value={transtext}
+              placeholder="訳を入力"
+              onIonChange={(e) => {
+                setTransText(e.target.value);
+              }}
+            ></IonTextarea>
+          </IonItem>
 
-      <IonButton expand="block" onClick={translatehandle}>
-        翻訳する
-      </IonButton>
+          <IonButton expand="block" onClick={translatehandle}>
+            翻訳する
+          </IonButton>
 
-      <Addbutton handleClick={handleClick} />
+          <Addbutton handleClick={handleClick} />
 
-      <IonToast
-        isOpen={toast1}
-        onDidDismiss={() => setToast1(false)}
-        message="単語を追加しました  "
-        duration={500}
-        translucent={true}
-      />
-    </IonList>
+          <IonToast
+            isOpen={toast1}
+            onDidDismiss={() => setToast1(false)}
+            message="単語を追加しました  "
+            duration={500}
+            translucent={true}
+          />
+        </IonList>
+      </IonContent>
+    </IonPage>
   );
 };
 
