@@ -23,13 +23,11 @@ const SlideOpts = {
 };
 
 const Cardcontent = ({ match }) => {
-  console.log(match);
-  console.log(match.params.cardId);
   const Id = match.params.cardId;
-  console.log(Id);
   const WS = useSelector((state) => state.cards.card);
-  console.log(WS);
   let Words = WS.find((data) => data.id === Id);
+
+  
   if (typeof Words === "undefined") {
     Words = {
       id: "0",
@@ -54,13 +52,13 @@ const Cardcontent = ({ match }) => {
       {Words.content.map((data) => {
         return (
           <IonSlide>
-            <IonCard style={{ width: "90%", height: "70%" }}>
+            <IonCard style={{ width: "90%", height: "70%" }} onClick = {() => (alert("###"))}>
               <IonCardContent>
-                <h1>{data.word}</h1>
+                <h1 style={{fontSize:35, textAlign:"center"}}>{data.word}</h1>
                 <p>
                   <br />
                 </p>
-                <h2>{data.translate}</h2>
+                <h2 style={{fontSize:20}}>{data.translate}</h2>
               </IonCardContent>
             </IonCard>
           </IonSlide>
