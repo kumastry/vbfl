@@ -1,20 +1,16 @@
-import React, { useState } from "react";
 import {
   IonSlides,
   IonSlide,
   IonContent,
   IonCard,
-  IonModal,
-  IonButton,
+  IonPage,
   IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonFabButton,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/react";
-import { pin, wifi, wine, warning, walk } from "ionicons/icons";
-import ModalHeader from "./ModalHeader";
-import Addbutton from "./Addbutton";
 import { useSelector } from "react-redux";
 
 const SlideOpts = {
@@ -23,13 +19,10 @@ const SlideOpts = {
 };
 
 const Cardcontent = ({ match }) => {
-  console.log(match);
-  console.log(match.params.cardId);
   const Id = match.params.cardId;
-  console.log(Id);
   const WS = useSelector((state) => state.cards.card);
-  console.log(WS);
   let Words = WS.find((data) => data.id === Id);
+
   if (typeof Words === "undefined") {
     Words = {
       id: "0",
@@ -43,30 +36,46 @@ const Cardcontent = ({ match }) => {
       content: [{ word: "add word", translate: "単語を追加してください" }],
     };
   }
-  console.log(Words);
 
   return (
-    <IonSlides
-      options={SlideOpts}
-      pager={true}
-      style={{ height: "70%", width: "90%" }}
-    >
-      {Words.content.map((data) => {
-        return (
-          <IonSlide>
-            <IonCard style={{ width: "90%", height: "70%" }}>
-              <IonCardContent>
-                <h1>{data.word}</h1>
-                <p>
-                  <br />
-                </p>
-                <h2>{data.translate}</h2>
-              </IonCardContent>
-            </IonCard>
-          </IonSlide>
-        );
-      })}
-    </IonSlides>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>{Words.title}</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab1" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">{Words.title}</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonSlides
+          options={SlideOpts}
+          pager={true}
+          style={{ height: "70%", width: "90%" }}
+        >
+          {Words.content.map((data) => {
+            return (
+              <IonSlide>
+                <IonCard style={{ width: "90%", height: "70%" }}>
+                  <IonCardContent>
+                    <h1>{data.word}</h1>
+                    <p>
+                      <br />
+                    </p>
+                    <h2>{data.translate}</h2>
+                  </IonCardContent>
+                </IonCard>
+              </IonSlide>
+            );
+          })}
+        </IonSlides>
+      </IonContent>
+    </IonPage>
   );
 };
 
