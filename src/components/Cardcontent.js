@@ -59,9 +59,9 @@ const Cardcontent = ({ match }) => {
           pager={true}
           style={{ height: "70%", width: "90%" }}
         >
-          {Words.content.map((data) => {
+          {Words.content.map((data, index) => {
             return (
-              <IonSlide>
+              <IonSlide key={index}>
                 <IonCard
                   style={{ width: "90%", height: "70%" }}
                   onClick={() => alert("###")}
