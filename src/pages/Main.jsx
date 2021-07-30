@@ -1,7 +1,13 @@
-import { IonContent, IonList, IonPage, IonAlert, IonItem } from "@ionic/react";
+import {
+  IonContent,
+  IonPage,
+  IonAlert,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+} from "@ionic/react";
 import Addbutton from "../components/Addbutton";
-import Header from "../components/Header";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
@@ -33,8 +39,17 @@ const MainPage = () => {
 
   return (
     <IonPage>
-      <Header />
-      <IonContent>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>wordCards</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">wordCards</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <CardsList />
 
         <IonAlert
