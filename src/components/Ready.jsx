@@ -10,15 +10,18 @@ import {
   IonLabel,
   IonItem,
   useIonViewWillEnter,
+  IonButton,
 } from "@ionic/react";
-import { useLocation, useParams } from "react-router";
-
-const Ready = () => {
-  const params = useParams();
-  const target = Number(params.target);
+import { useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router";
+const Ready = ({ match }) => {
+  const Id = match.params.cardId;
   const [four, setFour] = useState(false); // toggleをdisableにするためのstate
   const [wordCards, setWordCards] = useState([]);
-
+  const WS = useSelector((state) => state.cards.card);
+  const Words = WS.find((data) => data.id === Id);
+  const location = useLocation();
+  // console.log(location.pathname);
   useIonViewWillEnter(() => {
     const targetKey = "array";
     if (targetKey in localStorage) {
@@ -35,18 +38,17 @@ const Ready = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>{wordCards.length > 0 && wordCards[target].title}</IonTitle>
+          <IonTitle>{Words.title}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">
-              {wordCards.length > 0 && wordCards[target].title}
+              {/* {wordCards.length > 0 && wordCards[target].title} */}
             </IonTitle>
           </IonToolbar>
         </IonHeader>
-        {/*<ExploreContainer name="Tab 2 page" />*/}
         <IonCard>
           <IonItem>
             <IonLabel>
@@ -75,12 +77,19 @@ const Ready = () => {
           <IonItem>
             <IonLabel>
               <h2>単語を裏返す</h2>
-              <p>単語帳の訳を表にします。。</p>
+              <p>単語帳の訳を表にします。</p>
             </IonLabel>
             <IonToggle value="reversed" />
           </IonItem>
         </IonCard>
       </IonContent>
+      <IonButton
+        className="ion-margin"
+        expand="block"
+        routerLink={`/test/${Id}`}
+      >
+        単語テストを始める
+      </IonButton>
     </IonPage>
   );
 };
