@@ -18,6 +18,7 @@ import Ready from "./components/Ready";
 import NotFound from "./components/NotFound";
 import Cardcontent from "./components/Cardcontent";
 import AddContent from "./components/AddContent";
+import Test from "./components/Test";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -62,7 +63,8 @@ const App = () => (
             <Redirect to="/tab1" />
           </Route>
 
-          <Route path="/quiz/ready/:target" component={Ready} />
+          <Route exact path="/test/:cardId" component={Test} />
+          <Route exact path="/ready/:cardId" component={Ready} />
 
           <Route component={NotFound} />
         </IonRouterOutlet>

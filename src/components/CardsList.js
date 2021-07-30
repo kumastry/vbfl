@@ -57,6 +57,15 @@ const CardsList = () => {
               window.location.href = `/tab1/add/${cid}`;
             },
           },
+
+          {
+            text: "単語テストをする",
+            icon: caretForwardCircle,
+            handler: () => {
+              window.location.href = `/ready/${cid}`;
+            },
+          },
+
           {
             text: "キャンセル",
             role: "cancel",
