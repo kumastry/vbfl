@@ -10,7 +10,15 @@ export const cardsSlice = createSlice({
       state.card.push(action.payload);
     },
     deleteCard(state, action) {
-      state.card.splice(action.payload, 1);
+      const {cid} = action.payload;
+      console.log(cid);
+      const sliceid = state.card.findIndex((data) => {
+        return data.id === cid;
+      });
+      console.log(sliceid);
+      if(cid !== -1) {
+        state.card.splice(sliceid, 1);
+      }
     }
     ,
     addWord(state, action){
@@ -32,7 +40,8 @@ export const cardsSlice = createSlice({
     },
 
     deleteWord(state, action) {
-      
+
+
     }
   
   }

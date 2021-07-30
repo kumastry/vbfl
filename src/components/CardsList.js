@@ -39,7 +39,7 @@ const CardsList = () => {
             role: "destructive",
             icon: trash,
             handler: () => {
-              dispatch(deleteCard(cid));
+              dispatch(deleteCard({cid}));
             },
           },
           {

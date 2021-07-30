@@ -18,10 +18,6 @@ import { useSelector } from "react-redux";
 
 const Card = (props) => {
   const [showActionSheet, setShowActionSheet] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [addModal, setAddModal] = useState(false);
-  const history = useHistory();
-  const wordCards = useSelector((state) => state.card);
 
   return (
     <div>
