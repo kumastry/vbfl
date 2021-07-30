@@ -14,11 +14,14 @@ import {
   IonCardHeader,
   IonCardContent,
   IonProgressBar,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Test = ({ match }) => {
+  // localStorage.clear();
   // redux系準備
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
@@ -32,6 +35,9 @@ const Test = ({ match }) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>test</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab1" />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
