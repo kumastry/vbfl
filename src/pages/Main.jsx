@@ -22,12 +22,18 @@ const MainPage = () => {
     console.log("FFF");
 
     if (title.length > 0) {
-      console.log(title);
+      // console.log(title);
       dispatch(
         addCard({
           id: nanoid(),
           title,
           content: [],
+          type: {
+            random: false,
+            four: false,
+            reverse: false,
+            strict: false,
+          },
         })
       );
     }
@@ -45,11 +51,11 @@ const MainPage = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
+        {/* <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">wordCards</IonTitle>
           </IonToolbar>
-        </IonHeader>
+        </IonHeader> */}
         <CardsList />
 
         <IonAlert
