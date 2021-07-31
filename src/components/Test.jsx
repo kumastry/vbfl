@@ -19,12 +19,10 @@ import {
   IonIcon,
   IonAlert,
 } from "@ionic/react";
-import { shuffle } from "ionicons/icons";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { chevronBack } from "ionicons/icons";
 import { useHistory } from "react-router";
-
 
 const shuffleArray = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -32,15 +30,15 @@ const shuffleArray = ([...array]) => {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
-}
+};
 
 const removeCorrect = ([...array], correctId) => {
   let removeId = -1;
   console.log(array);
   console.log(correctId);
-  for(let i = 0; i < array.length; i++) {
-    if(array[i]['translateId'] === correctId) {
-      removeId =i;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i]["translateId"] === correctId) {
+      removeId = i;
       break;
     }
   }
@@ -49,7 +47,7 @@ const removeCorrect = ([...array], correctId) => {
   array.splice(removeId, 1);
 
   return array;
-}
+};
 
 const Test = ({ match }) => {
   // localStorage.clear();
@@ -70,39 +68,45 @@ const Test = ({ match }) => {
   let translates = [];
   let translateId = 0;
   for (const item of Words.content) {
-    words.push({word:item.word, translate:item.translate, translateId});
-    translates.push({translateId, translate:item.translate});
+    words.push({ word: item.word, translate: item.translate, translateId });
+    translates.push({ translateId, translate: item.translate });
     translateId++;
   }
 
   const ClickHander = (inputId, currentId) => {
-    if(inputId === currentId) {
-      correctNumber ++;
-      alert("正解，正解数:"+correctNumber);
-      
+    if (inputId === currentId) {
+      correctNumber++;
+      alert("正解，正解数:" + correctNumber);
     } else {
-      alert("不正解")
+      alert("不正解");
     }
 
-    setcurId(curId+1);
-  }
+    setcurId(curId + 1);
+  };
   console.log(words);
   console.log(translates);
 
   const reversed = false;
   let correctNumber = 0;
 
-
-
   useEffect(() => {
     let alternative = [];
-    const transArray = removeCorrect(shuffleArray(translates), words[curId]['translateId']);
+    const transArray = removeCorrect(
+      shuffleArray(translates),
+      words[curId]["translateId"]
+    );
     console.log(transArray);
-    alternative.push({translateId:words[curId]['translateId'], translate:words[curId]['translate']});
+    alternative.push({
+      translateId: words[curId]["translateId"],
+      translate: words[curId]["translate"],
+    });
     console.log("####");
     console.log(alternative);
-    for(let i = 0; i < 3; i++) {
-      alternative.push({translateId:transArray[i]['translateId'], translate:transArray[i]['translate']});
+    for (let i = 0; i < 3; i++) {
+      alternative.push({
+        translateId: transArray[i]["translateId"],
+        translate: transArray[i]["translate"],
+      });
     }
 
     alternative = shuffleArray(alternative);
@@ -110,7 +114,6 @@ const Test = ({ match }) => {
     console.log(alter);
   }, [curId]);
 
-  
   return (
     <IonPage>
       <IonHeader>
@@ -135,53 +138,69 @@ const Test = ({ match }) => {
             <IonTitle size="large">test</IonTitle>
           </IonToolbar>
         </IonHeader>
-     
-            <IonCard key={curId}>
-              <IonCard>
-                <IonCardHeader>
-                  <IonCardSubtitle>
-                    {`${curId + 1} / ${wordCardsLength}`}
-                  </IonCardSubtitle>
-                  <IonCardTitle>
-                    {curId >=  wordCardsLength? "正解数:"+correctNumber: words[curId]['word']}
-                  </IonCardTitle>
-                </IonCardHeader>
-              </IonCard>
 
-              <IonGrid>
-                <IonRow>
+        <IonCard key={curId}>
+          <IonCard>
+            <IonCardHeader>
+              <IonCardSubtitle>
+                {`${curId + 1} / ${wordCardsLength}`}
+              </IonCardSubtitle>
+              <IonCardTitle>
+                {curId >= wordCardsLength
+                  ? "正解数:" + correctNumber
+                  : words[curId]["word"]}
+              </IonCardTitle>
+            </IonCardHeader>
+          </IonCard>
 
-                  <IonCol offset-4>
-                    <IonCard onClick = {() => ClickHander(alter[0]['translateId'], curId)}>
-                      <IonLabel>1.</IonLabel>
-                      <IonCardContent>{alter.length === 0 ? "loading..." : alter[0]['translate']}</IonCardContent>
-                    </IonCard>
-                  </IonCol>
+          <IonGrid>
+            <IonRow>
+              <IonCol offset-4>
+                <IonCard
+                  onClick={() => ClickHander(alter[0]["translateId"], curId)}
+                >
+                  <IonLabel>1.</IonLabel>
+                  <IonCardContent>
+                    {alter.length === 0 ? "loading..." : alter[0]["translate"]}
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
 
-                  <IonCol offset-4>
-                    <IonCard onClick = {() => ClickHander(alter[1]['translateId'], curId)}>
-                      <IonLabel>2.</IonLabel>
-                      <IonCardContent>{alter.length === 0 ? "loading..." : alter[1]['translate']}</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol offset-4>
-                    <IonCard onClick = {() => ClickHander(alter[2]['translateId'], curId)}>
-                      <IonLabel>3.</IonLabel>
-                      <IonCardContent>{alter.length === 0 ? "loading..." : alter[2]['translate']}</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol offset-4>
-                    <IonCard onClick = {() => ClickHander(alter[3]['translateId'], curId)}>
-                      <IonLabel>4.</IonLabel>
-                      <IonCardContent>{alter.length === 0 ? "loading..." : alter[3]['translate']}</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
-
-            </IonCard>
+              <IonCol offset-4>
+                <IonCard
+                  onClick={() => ClickHander(alter[1]["translateId"], curId)}
+                >
+                  <IonLabel>2.</IonLabel>
+                  <IonCardContent>
+                    {alter.length === 0 ? "loading..." : alter[1]["translate"]}
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol offset-4>
+                <IonCard
+                  onClick={() => ClickHander(alter[2]["translateId"], curId)}
+                >
+                  <IonLabel>3.</IonLabel>
+                  <IonCardContent>
+                    {alter.length === 0 ? "loading..." : alter[2]["translate"]}
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+              <IonCol offset-4>
+                <IonCard
+                  onClick={() => ClickHander(alter[3]["translateId"], curId)}
+                >
+                  <IonLabel>4.</IonLabel>
+                  <IonCardContent>
+                    {alter.length === 0 ? "loading..." : alter[3]["translate"]}
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonCard>
 
         <IonProgressBar value={1}></IonProgressBar>
         <IonAlert
