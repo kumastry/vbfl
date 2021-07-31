@@ -15,12 +15,15 @@ import {
   IonCardContent,
   IonProgressBar,
   IonButtons,
-  IonBackButton,
+  IonButton,
+  IonIcon,
+  IonAlert,
 } from "@ionic/react";
 import { shuffle } from "ionicons/icons";
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { chevronBack } from "ionicons/icons";
+import { useHistory } from "react-router";
 
 
 const shuffleArray = ([...array]) => {
@@ -54,6 +57,11 @@ const Test = ({ match }) => {
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
+
+  const [showModal, setShowModal] = useState(false);
+  const history = useHistory();
+  const handleLink = (path) => history.push(path);
+
   const [curId, setcurId] = useState(0);
   const [alter, setAlter] = useState([]);
   const wordCardsLength = Words.content.length;
@@ -105,12 +113,18 @@ const Test = ({ match }) => {
   
   return (
     <IonPage>
-
       <IonHeader>
         <IonToolbar>
           <IonTitle>test</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab1" />
+            <IonButton
+              type="button"
+              color="danger"
+              onClick={() => setShowModal(true)}
+            >
+              <IonIcon icon={chevronBack} />
+              やめる
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -170,6 +184,22 @@ const Test = ({ match }) => {
             </IonCard>
 
         <IonProgressBar value={1}></IonProgressBar>
+        <IonAlert
+          isOpen={showModal}
+          onDidDismiss={() => setShowModal(false)}
+          cssClass="my-custom-class"
+          message={"今回の結果は保存されません。本当にやめますか？"}
+          buttons={[
+            {
+              text: "キャンセル",
+              role: "cancel",
+            },
+            {
+              text: "OK",
+              handler: () => handleLink("/"),
+            },
+          ]}
+        />
       </IonContent>
     </IonPage>
   );
