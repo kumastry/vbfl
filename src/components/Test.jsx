@@ -19,6 +19,7 @@ import {
   IonIcon,
   IonAlert,
 } from "@ionic/react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { chevronBack } from "ionicons/icons";
 import { useState } from "react";
@@ -35,7 +36,20 @@ const Test = ({ match }) => {
   const history = useHistory();
   const handleLink = (path) => history.push(path);
 
+  const [curId, setcurId] = useState(0);
   const wordCardsLength = Words.content.length;
+
+  const word = [];
+  const translate = [];
+
+  for (const item of Words.content) {
+    word.push(item.word);
+    translate.push(item.translate);
+  }
+
+  console.log(word);
+  console.log(translate);
+
   const reversed = false;
 
   return (
@@ -55,58 +69,56 @@ const Test = ({ match }) => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">test</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {Words.content.map((word, index) => {
-          return (
-            <IonCard key={index}>
-              <IonCard>
-                <IonCardHeader>
-                  <IonCardSubtitle>
-                    {`${index + 1} / ${wordCardsLength}`}
-                  </IonCardSubtitle>
-                  <IonCardTitle>
-                    {reversed ? word.translate : word.word}
-                  </IonCardTitle>
-                </IonCardHeader>
-              </IonCard>
-              <IonGrid>
-                <IonRow>
-                  <IonCol offset-4>
-                    <IonCard>
-                      <IonLabel>1.</IonLabel>
-                      <IonCardContent>中身</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol offset-4>
-                    <IonCard>
-                      <IonLabel>2.</IonLabel>
-                      <IonCardContent>中身</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol offset-4>
-                    <IonCard>
-                      <IonLabel>3.</IonLabel>
-                      <IonCardContent>中身</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol offset-4>
-                    <IonCard>
-                      <IonLabel>4.</IonLabel>
-                      <IonCardContent>中身</IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
-            </IonCard>
-          );
-        })}
+
+        <IonCard key={curId}>
+          <IonCard>
+            <IonCardHeader>
+              <IonCardSubtitle>
+                {`${curId + 1} / ${wordCardsLength}`}
+              </IonCardSubtitle>
+              <IonCardTitle>
+                {reversed ? translate[curId] : word[curId]}
+              </IonCardTitle>
+            </IonCardHeader>
+          </IonCard>
+          <IonGrid>
+            <IonRow>
+              <IonCol offset-4>
+                <IonCard onClick={() => setcurId(curId + 1)}>
+                  <IonLabel>1.</IonLabel>
+                  <IonCardContent>中身</IonCardContent>
+                </IonCard>
+              </IonCol>
+              <IonCol offset-4>
+                <IonCard>
+                  <IonLabel>2.</IonLabel>
+                  <IonCardContent>中身</IonCardContent>
+                </IonCard>
+              </IonCol>
+            </IonRow>
+            <IonRow>
+              <IonCol offset-4>
+                <IonCard>
+                  <IonLabel>3.</IonLabel>
+                  <IonCardContent>中身</IonCardContent>
+                </IonCard>
+              </IonCol>
+              <IonCol offset-4>
+                <IonCard>
+                  <IonLabel>4.</IonLabel>
+                  <IonCardContent>中身</IonCardContent>
+                </IonCard>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </IonCard>
         <IonProgressBar value={1}></IonProgressBar>
         <IonAlert
           isOpen={showModal}
