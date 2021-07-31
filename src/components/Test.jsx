@@ -17,6 +17,7 @@ import {
   IonButtons,
   IonBackButton,
 } from "@ionic/react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -26,12 +27,25 @@ const Test = ({ match }) => {
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
-
+  const [curId, setcurId] = useState(0);
   const wordCardsLength = Words.content.length;
+
+  const word = [];
+  const translate = [];
+
+  for (const item of Words.content) {
+    word.push(item.word)
+    translate.push(item.translate);
+  }
+
+  console.log(word);
+  console.log(translate);
+
   const reversed = false;
 
   return (
     <IonPage>
+
       <IonHeader>
         <IonToolbar>
           <IonTitle>test</IonTitle>
@@ -40,29 +54,29 @@ const Test = ({ match }) => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
+
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">test</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {Words.content.map((word, index) => {
-          return (
-            <IonCard key={index}>
+     
+            <IonCard key={curId}>
               <IonCard>
                 <IonCardHeader>
                   <IonCardSubtitle>
-                    {`${index + 1} / ${wordCardsLength}`}
+                    {`${curId + 1} / ${wordCardsLength}`}
                   </IonCardSubtitle>
                   <IonCardTitle>
-                    {reversed ? word.translate : word.word}
+                    {reversed ? translate[curId] : word[curId]}
                   </IonCardTitle>
                 </IonCardHeader>
               </IonCard>
               <IonGrid>
                 <IonRow>
                   <IonCol offset-4>
-                    <IonCard>
+                    <IonCard onClick = {() => setcurId(curId+1)}>
                       <IonLabel>1.</IonLabel>
                       <IonCardContent>中身</IonCardContent>
                     </IonCard>
@@ -90,8 +104,6 @@ const Test = ({ match }) => {
                 </IonRow>
               </IonGrid>
             </IonCard>
-          );
-        })}
         <IonProgressBar value={1}></IonProgressBar>
       </IonContent>
     </IonPage>
