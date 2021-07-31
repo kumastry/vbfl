@@ -9,11 +9,12 @@ import {
   IonTabs,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { square, build, book } from "ionicons/icons";
+import { pricetags, ribbon, build } from "ionicons/icons";
 import Tab1 from "./pages/Main";
 // import Tab2 from "./pages/Quiz";
-import Tab3 from "./pages/Tab3";
+import Achievement from "./pages/Achievement";
 import Settings from "./pages/Settings";
+
 import Ready from "./components/Ready";
 import NotFound from "./components/NotFound";
 import Cardcontent from "./components/Cardcontent";
@@ -51,8 +52,8 @@ const App = () => (
               <Tab2 />
             </Route> */}
 
-          <Route exact path="/tab3">
-            <Tab3 />
+          <Route exact path="/achivement">
+            <Achievement />
           </Route>
 
           <Route exact path="/settings">
@@ -71,7 +72,7 @@ const App = () => (
 
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={book} />
+            <IonIcon icon={pricetags} />
             <IonLabel>メイン</IonLabel>
           </IonTabButton>
 
@@ -80,9 +81,9 @@ const App = () => (
               <IonLabel>クイズ</IonLabel>
             </IonTabButton> */}
 
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+          <IonTabButton tab="Achivement" href="/achivement">
+            <IonIcon icon={ribbon} />
+            <IonLabel>実績</IonLabel>
           </IonTabButton>
 
           <IonTabButton tab="settings" href="/settings">
