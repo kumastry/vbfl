@@ -55,12 +55,14 @@ const Test = ({ match }) => {
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
+  const reversed = false;
 
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const handleLink = (path) => history.push(path);
 
   const [curId, setcurId] = useState(0);
+  const [correct, setCorrect] = useState(0);
   const [alter, setAlter] = useState([]);
   const wordCardsLength = Words.content.length;
 
@@ -75,151 +77,210 @@ const Test = ({ match }) => {
 
   const ClickHander = (inputId, currentId) => {
     if (inputId === currentId) {
-      correctNumber++;
-      alert("正解，正解数:" + correctNumber);
+      setCorrect(correct + 1);
+      alert(`正解，正解数: ${correct + 1}`);
     } else {
       alert("不正解");
     }
-
     setcurId(curId + 1);
   };
-  console.log(words);
-  console.log(translates);
-
-  const reversed = false;
-  let correctNumber = 0;
 
   useEffect(() => {
-    let alternative = [];
-    const transArray = removeCorrect(
-      shuffleArray(translates),
-      words[curId]["translateId"]
-    );
-    console.log(transArray);
-    alternative.push({
-      translateId: words[curId]["translateId"],
-      translate: words[curId]["translate"],
-    });
-    console.log("####");
-    console.log(alternative);
-    for (let i = 0; i < 3; i++) {
+    if (curId < wordCardsLength) {
+      let alternative = [];
+      const transArray = removeCorrect(
+        shuffleArray(translates),
+        words[curId]["translateId"]
+      );
       alternative.push({
-        translateId: transArray[i]["translateId"],
-        translate: transArray[i]["translate"],
+        translateId: words[curId]["translateId"],
+        translate: words[curId]["translate"],
       });
-    }
+      for (let i = 0; i < 3; i++) {
+        alternative.push({
+          translateId: transArray[i]["translateId"],
+          translate: transArray[i]["translate"],
+        });
+      }
 
-    alternative = shuffleArray(alternative);
-    setAlter(alternative);
-    console.log(alter);
+      alternative = shuffleArray(alternative);
+      setAlter(alternative);
+    }
   }, [curId]);
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>test</IonTitle>
-          <IonButtons slot="start">
-            <IonButton
-              type="button"
-              color="danger"
-              onClick={() => setShowModal(true)}
-            >
-              <IonIcon icon={chevronBack} />
-              やめる
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+      {(() => {
+        if (curId < wordCardsLength) {
+          return (
+            <>
+              <IonHeader>
+                <IonToolbar>
+                  <IonTitle>test</IonTitle>
+                  <IonButtons slot="start">
+                    <IonButton
+                      type="button"
+                      color="danger"
+                      onClick={() => setShowModal(true)}
+                    >
+                      <IonIcon icon={chevronBack} />
+                      やめる
+                    </IonButton>
+                  </IonButtons>
+                </IonToolbar>
+              </IonHeader>
 
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">test</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+              <IonContent fullscreen>
+                <IonHeader collapse="condense">
+                  <IonToolbar>
+                    <IonTitle size="large">test</IonTitle>
+                  </IonToolbar>
+                </IonHeader>
+                <IonCard key={curId}>
+                  <IonCard>
+                    <IonCardHeader>
+                      <IonCardSubtitle>
+                        {`${curId + 1} / ${wordCardsLength}`}
+                      </IonCardSubtitle>
+                      <IonCardTitle>
+                        {curId >= wordCardsLength
+                          ? `正解数:  ${correct}`
+                          : words[curId]["word"]}
+                      </IonCardTitle>
+                    </IonCardHeader>
+                  </IonCard>
 
-        <IonCard key={curId}>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardSubtitle>
-                {`${curId + 1} / ${wordCardsLength}`}
-              </IonCardSubtitle>
-              <IonCardTitle>
-                {curId >= wordCardsLength
-                  ? "正解数:" + correctNumber
-                  : words[curId]["word"]}
-              </IonCardTitle>
-            </IonCardHeader>
-          </IonCard>
+                  <IonGrid>
+                    <IonRow>
+                      <IonCol offset-4>
+                        <IonCard
+                          onClick={() =>
+                            ClickHander(alter[0]["translateId"], curId)
+                          }
+                        >
+                          <IonLabel>1.</IonLabel>
+                          <IonCardContent>
+                            {alter.length === 0
+                              ? "loading..."
+                              : alter[0]["translate"]}
+                          </IonCardContent>
+                        </IonCard>
+                      </IonCol>
 
-          <IonGrid>
-            <IonRow>
-              <IonCol offset-4>
-                <IonCard
-                  onClick={() => ClickHander(alter[0]["translateId"], curId)}
-                >
-                  <IonLabel>1.</IonLabel>
-                  <IonCardContent>
-                    {alter.length === 0 ? "loading..." : alter[0]["translate"]}
-                  </IonCardContent>
+                      <IonCol offset-4>
+                        <IonCard
+                          onClick={() =>
+                            ClickHander(alter[1]["translateId"], curId)
+                          }
+                        >
+                          <IonLabel>2.</IonLabel>
+                          <IonCardContent>
+                            {alter.length === 0
+                              ? "loading..."
+                              : alter[1]["translate"]}
+                          </IonCardContent>
+                        </IonCard>
+                      </IonCol>
+                    </IonRow>
+                    <IonRow>
+                      <IonCol offset-4>
+                        <IonCard
+                          onClick={() =>
+                            ClickHander(alter[2]["translateId"], curId)
+                          }
+                        >
+                          <IonLabel>3.</IonLabel>
+                          <IonCardContent>
+                            {alter.length === 0
+                              ? "loading..."
+                              : alter[2]["translate"]}
+                          </IonCardContent>
+                        </IonCard>
+                      </IonCol>
+                      <IonCol offset-4>
+                        <IonCard
+                          onClick={() =>
+                            ClickHander(alter[3]["translateId"], curId)
+                          }
+                        >
+                          <IonLabel>4.</IonLabel>
+                          <IonCardContent>
+                            {alter.length === 0
+                              ? "loading..."
+                              : alter[3]["translate"]}
+                          </IonCardContent>
+                        </IonCard>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
                 </IonCard>
-              </IonCol>
 
-              <IonCol offset-4>
-                <IonCard
-                  onClick={() => ClickHander(alter[1]["translateId"], curId)}
-                >
-                  <IonLabel>2.</IonLabel>
-                  <IonCardContent>
-                    {alter.length === 0 ? "loading..." : alter[1]["translate"]}
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol offset-4>
-                <IonCard
-                  onClick={() => ClickHander(alter[2]["translateId"], curId)}
-                >
-                  <IonLabel>3.</IonLabel>
-                  <IonCardContent>
-                    {alter.length === 0 ? "loading..." : alter[2]["translate"]}
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-              <IonCol offset-4>
-                <IonCard
-                  onClick={() => ClickHander(alter[3]["translateId"], curId)}
-                >
-                  <IonLabel>4.</IonLabel>
-                  <IonCardContent>
-                    {alter.length === 0 ? "loading..." : alter[3]["translate"]}
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-        </IonCard>
+                {/* <IonProgressBar value={1}></IonProgressBar> */}
+                <IonAlert
+                  isOpen={showModal}
+                  onDidDismiss={() => setShowModal(false)}
+                  cssClass="my-custom-class"
+                  message={"今回の結果は保存されません。本当にやめますか？"}
+                  buttons={[
+                    {
+                      text: "キャンセル",
+                      role: "cancel",
+                    },
+                    {
+                      text: "OK",
+                      handler: () => handleLink("/"),
+                    },
+                  ]}
+                />
+              </IonContent>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <IonHeader>
+                <IonToolbar>
+                  <IonTitle>test</IonTitle>
+                  <IonButtons slot="start">
+                    <IonButton
+                      type="button"
+                      color="danger"
+                      onClick={() => setShowModal(true)}
+                    >
+                      <IonIcon icon={chevronBack} />
+                      おわる
+                    </IonButton>
+                  </IonButtons>
+                </IonToolbar>
+              </IonHeader>
 
-        <IonProgressBar value={1}></IonProgressBar>
-        <IonAlert
-          isOpen={showModal}
-          onDidDismiss={() => setShowModal(false)}
-          cssClass="my-custom-class"
-          message={"今回の結果は保存されません。本当にやめますか？"}
-          buttons={[
-            {
-              text: "キャンセル",
-              role: "cancel",
-            },
-            {
-              text: "OK",
-              handler: () => handleLink("/"),
-            },
-          ]}
-        />
-      </IonContent>
+              <IonContent fullscreen>
+                <IonHeader collapse="condense">
+                  <IonToolbar>
+                    <IonTitle size="large">test</IonTitle>
+                  </IonToolbar>
+                </IonHeader>
+              </IonContent>
+              <IonAlert
+                isOpen={showModal}
+                onDidDismiss={() => setShowModal(false)}
+                cssClass="my-custom-class"
+                message={"単語帳選択画面に戻ります。よろしいですか？"}
+                buttons={[
+                  {
+                    text: "キャンセル",
+                    role: "cancel",
+                  },
+                  {
+                    text: "OK",
+                    handler: () => handleLink("/"),
+                  },
+                ]}
+              />
+            </>
+          );
+        }
+      })()}
     </IonPage>
   );
 };
