@@ -34,18 +34,13 @@ const shuffleArray = ([...array]) => {
 
 const removeCorrect = ([...array], correctId) => {
   let removeId = -1;
-  console.log(array);
-  console.log(correctId);
   for (let i = 0; i < array.length; i++) {
     if (array[i]["translateId"] === correctId) {
       removeId = i;
       break;
     }
   }
-
-  console.log(removeId);
   array.splice(removeId, 1);
-
   return array;
 };
 
@@ -260,6 +255,19 @@ const Test = ({ match }) => {
                     <IonTitle size="large">test</IonTitle>
                   </IonToolbar>
                 </IonHeader>
+                <IonGrid>
+                  <IonRow>
+                    <IonCol>
+                      <IonCard>正解数{correct}</IonCard>
+                    </IonCol>
+                    <IonCol>
+                      <IonCard>正解数{correct}</IonCard>
+                    </IonCol>
+                    <IonCol>
+                      <IonCard>正解数{correct}</IonCard>
+                    </IonCol>
+                  </IonRow>
+                </IonGrid>
               </IonContent>
               <IonAlert
                 isOpen={showModal}
