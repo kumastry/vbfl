@@ -11,69 +11,32 @@ import {
   IonCardContent,
   IonAlert,
 } from "@ionic/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Achievement = ({ match }) => {
-  const data = [
-    [
-      {
-        name: "10問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-      {
-        name: "30問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-      {
-        name: "50問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-    ],
-    [
-      {
-        name: "10問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-      {
-        name: "30問連続正解",
-        achieved: true,
-        hint: "問題を正解し続ける",
-      },
-      {
-        name: "50問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-    ],
-    [
-      {
-        name: "10問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-      {
-        name: "30問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-      {
-        name: "50問連続正解",
-        achieved: false,
-        hint: "問題を正解し続ける",
-      },
-    ],
-  ];
-
+const Achievement = () => {
+  // localStorage.clear();
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
-
-  // useEffect(() => {
-
-  // }, [])
+  const achievementList = useSelector(
+    (state) => state.achievements.achievement
+  );
+  const splitList = () => {
+    const tmp = [];
+    let tmp3 = [];
+    for (let i = 1; i <= achievementList.length; i++) {
+      if (i % 3 !== 0) {
+        tmp3.push(achievementList[i - 1]);
+      } else {
+        tmp3.push(achievementList[i - 1]);
+        tmp.push(tmp3);
+        tmp3 = [];
+      }
+    }
+    if (tmp3.length > 0) tmp.push(tmp3);
+    return tmp;
+  };
+  const list = splitList();
 
   return (
     <IonPage>
@@ -84,17 +47,18 @@ const Achievement = ({ match }) => {
       </IonHeader>
       <IonContent>
         <IonGrid>
-          {data.map((set, rowIndex) => {
+          {list.map((set, rowIndex) => {
             return (
               <IonRow key={rowIndex}>
                 {set.map((data, colIndex) => {
-                  const name = data.achieved ? data.name : "???";
+                  const info = data.info;
+                  const name = info.achieved ? info.name : "???";
                   return (
                     <IonCol key={colIndex}>
                       <IonCard
                         onClick={() => {
-                          if (!data.achieved) {
-                            setMessage(data.hint);
+                          if (!info.achieved) {
+                            setMessage(info.hint);
                             setShowModal(true);
                           }
                         }}
