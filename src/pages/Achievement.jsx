@@ -1,70 +1,93 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider } from '@ionic/react';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonCard,
+  IonCardContent,
+  IonAlert,
+} from "@ionic/react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Tab3 = () => {
-
-  const [text, setText] = useState();
-  const [number, setNumber] = useState();
+const Achievement = () => {
+  // localStorage.clear();
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const achievementList = useSelector(
+    (state) => state.achievements.achievement
+  );
+  const splitList = () => {
+    const tmp = [];
+    let tmp3 = [];
+    for (let i = 1; i <= achievementList.length; i++) {
+      if (i % 3 !== 0) {
+        tmp3.push(achievementList[i - 1]);
+      } else {
+        tmp3.push(achievementList[i - 1]);
+        tmp.push(tmp3);
+        tmp3 = [];
+      }
+    }
+    if (tmp3.length > 0) tmp.push(tmp3);
+    return tmp;
+  };
+  const list = splitList();
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>IonInput Examples</IonTitle>
+          <IonTitle>実績一覧</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
-          <IonItemDivider>Default Input with Placeholder</IonItemDivider>
-          <IonItem>
-            <IonInput value={text} placeholder="Enter Input" ></IonInput>
-          </IonItem>
-
-          <IonItemDivider>Input with clear button when there is a value</IonItemDivider>
-          <IonItem>
-            <IonInput value={text} placeholder="Enter Input"clearInput></IonInput>
-          </IonItem>
-
-          <IonItemDivider>Number type input</IonItemDivider>
-          <IonItem>
-            <IonInput type="number" value={number} placeholder="Enter Number" ></IonInput>
-          </IonItem>
-
-          <IonItemDivider>Disabled input</IonItemDivider>
-          <IonItem>
-            <IonInput value={text} disabled></IonInput>
-          </IonItem>
-
-          <IonItemDivider>Readonly input</IonItemDivider>
-          <IonItem>
-            <IonInput value={text} readonly></IonInput>
-          </IonItem>
-
-          <IonItemDivider>Inputs with labels</IonItemDivider>
-
-          <IonItem>
-            <IonLabel>Default Label</IonLabel>
-            <IonInput></IonInput>
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="floating">Floating Label</IonLabel>
-            <IonInput value={text}></IonInput>
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="fixed">Fixed Label</IonLabel>
-            <IonInput value={text}></IonInput>
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Stacked Label</IonLabel>
-            <IonInput value={text}> </IonInput>
-          </IonItem>
-        </IonList>
+        <IonGrid>
+          {list.map((set, rowIndex) => {
+            return (
+              <IonRow key={rowIndex}>
+                {set.map((data, colIndex) => {
+                  const info = data.info;
+                  const name = info.achieved ? info.name : "???";
+                  return (
+                    <IonCol key={colIndex}>
+                      <IonCard
+                        onClick={() => {
+                          if (!info.achieved) {
+                            setMessage(info.hint);
+                            setShowModal(true);
+                          }
+                        }}
+                      >
+                        <IonCardContent>{name}</IonCardContent>
+                      </IonCard>
+                    </IonCol>
+                  );
+                })}
+              </IonRow>
+            );
+          })}
+        </IonGrid>
       </IonContent>
+      <IonAlert
+        isOpen={showModal}
+        onDidDismiss={() => setShowModal(false)}
+        cssClass="my-custom-class"
+        header={"実績解除のヒント"}
+        message={message}
+        buttons={[
+          {
+            text: "もどる",
+            role: "cancel",
+          },
+        ]}
+      />
     </IonPage>
   );
 };
 
-export default Tab3;
+export default Achievement;

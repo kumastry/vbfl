@@ -40,60 +40,54 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
-const App = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1" component={Tab1} />
-          <Route exact path="/tab1/words/:cardId" component={Cardcontent} />
-          <Route exact path="/tab1/add/:cardId" component={AddContent} />
-          {/* <Route exact path="/quiz">
-              <Tab2 />
-            </Route> */}
+const App = () => {
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/tab1" component={Tab1} />
+            <Route exact path="/tab1/words/:cardId" component={Cardcontent} />
+            <Route exact path="/tab1/add/:cardId" component={AddContent} />
 
-          <Route exact path="/achivement">
-            <Achievement />
-          </Route>
+            <Route exact path="/achivement">
+              <Achievement />
+            </Route>
 
-          <Route exact path="/settings">
-            <Settings />
-          </Route>
+            <Route exact path="/settings">
+              <Settings />
+            </Route>
 
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
+            <Route exact path="/">
+              <Redirect to="/tab1" />
+            </Route>
 
-          <Route exact path="/test/:cardId" component={Test} />
-          <Route exact path="/ready/:cardId" component={Ready} />
+            <Route exact path="/test/:cardId" component={Test} />
+            <Route exact path="/ready/:cardId" component={Ready} />
 
-          <Route component={NotFound} />
-        </IonRouterOutlet>
+            <Route component={NotFound} />
+          </IonRouterOutlet>
 
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={pricetags} />
-            <IonLabel>メイン</IonLabel>
-          </IonTabButton>
+          <IonTabBar slot="bottom" hidden={false}>
+            <IonTabButton tab="tab1" href="/tab1">
+              <IonIcon icon={pricetags} />
+              <IonLabel>メイン</IonLabel>
+            </IonTabButton>
 
-          {/* <IonTabButton tab="quiz" href="/quiz">
-              <IonIcon icon={ellipse} />
-              <IonLabel>クイズ</IonLabel>
-            </IonTabButton> */}
+            <IonTabButton tab="Achivement" href="/achivement">
+              <IonIcon icon={ribbon} />
+              <IonLabel>実績</IonLabel>
+            </IonTabButton>
 
-          <IonTabButton tab="Achivement" href="/achivement">
-            <IonIcon icon={ribbon} />
-            <IonLabel>実績</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab="settings" href="/settings">
-            <IonIcon icon={build} />
-            <IonLabel>設定</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+            <IonTabButton tab="settings" href="/settings">
+              <IonIcon icon={build} />
+              <IonLabel>設定</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;
