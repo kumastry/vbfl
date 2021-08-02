@@ -35,7 +35,9 @@ export const cardsSlice = createSlice({
       }
     },
 
-    deleteWord(state, action) {},
+    deleteWord(state, action) {
+      
+    },
   },
 });
 

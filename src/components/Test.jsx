@@ -44,9 +44,13 @@ const removeCorrect = ([...array], correctId) => {
   return array;
 };
 
+let correctNumber = 0;
+
+
 const Test = ({ match }) => {
   // localStorage.clear();
   // redux系準備
+  const [showAlert, setShowAlert] = useState(false);
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
@@ -55,15 +59,14 @@ const Test = ({ match }) => {
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const handleLink = (path) => history.push(path);
-
   const [curId, setcurId] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [alter, setAlter] = useState([]);
   const wordCardsLength = Words.content.length;
-
   const words = [];
   let translates = [];
   let translateId = 0;
+  
   for (const item of Words.content) {
     words.push({ word: item.word, translate: item.translate, translateId });
     translates.push({ translateId, translate: item.translate });
