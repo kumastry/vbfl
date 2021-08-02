@@ -22,7 +22,6 @@ export const cardsSlice = createSlice({
     },
     addWord(state, action) {
       const { Id, word, translate } = action.payload;
-      console.log(state.card);
       const existingCard = state.card.find((data) => {
         return data.id === Id;
       });
@@ -35,13 +34,48 @@ export const cardsSlice = createSlice({
       }
     },
 
-    deleteWord(state, action) {
-      
+    deleteWord(state, action) {},
+
+    changeRandom(state, action) {
+      const id = action.payload;
+      const sliceid = state.card.findIndex((data) => {
+        return data.id === id;
+      });
+      state.card[sliceid].random = !state.card[sliceid].random;
+    },
+    changeFour(state, action) {
+      const id = action.payload;
+      const sliceid = state.card.findIndex((data) => {
+        return data.id === id;
+      });
+      state.card[sliceid].four = !state.card[sliceid].four;
+    },
+    changeStrict(state, action) {
+      const id = action.payload;
+      const sliceid = state.card.findIndex((data) => {
+        return data.id === id;
+      });
+      state.card[sliceid].strict = !state.card[sliceid].strict;
+    },
+    changeReverse(state, action) {
+      const id = action.payload;
+      const sliceid = state.card.findIndex((data) => {
+        return data.id === id;
+      });
+      state.card[sliceid].reverse = !state.card[sliceid].reverse;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addCard, addWord, deleteCard } = cardsSlice.actions;
+export const {
+  addCard,
+  addWord,
+  deleteCard,
+  changeRandom,
+  changeFour,
+  changeStrict,
+  changeReverse,
+} = cardsSlice.actions;
 
 export default cardsSlice.reducer;

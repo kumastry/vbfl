@@ -9,23 +9,31 @@ import {
   IonCard,
   IonLabel,
   IonItem,
-  useIonViewWillEnter,
   IonButton,
-  useIonViewDidLeave,
   IonButtons,
   IonBackButton,
 } from "@ionic/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  changeRandom,
+  changeReverse,
+  changeFour,
+  changeStrict,
+} from "../slices/cardSlice";
+
 const Ready = ({ match }) => {
+  // localStorage.clear();
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
 
   // 改良の必要あり
-  const [random, setRandom] = useState(Words.type.random);
-  const [four, setFour] = useState(Words.type.four);
-  const [strict, setStrict] = useState(Words.type.strict);
-  const [reverse, setReverse] = useState(Words.type.reverse);
+  const [random, setRandom] = useState(Words.random);
+  const [four, setFour] = useState(Words.four);
+  const [strict, setStrict] = useState(Words.strict);
+  const [reverse, setReverse] = useState(Words.reverse);
+
+  const dispatch = useDispatch();
   // const [wordCards, setWordCards] = useState([]);
   // useIonViewWillEnter(() => {
   //   const targetKey = "array";
@@ -40,13 +48,6 @@ const Ready = ({ match }) => {
   // //   return null;
   // // }
 
-  useIonViewDidLeave(() => {
-    Words.type.random = random;
-    Words.type.four = four;
-    Words.type.strict = strict;
-    Words.type.reverse = reverse;
-  });
-
   return (
     <IonPage>
       <IonHeader>
@@ -58,11 +59,6 @@ const Ready = ({ match }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {/* <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">{Words.title}</IonTitle>
-          </IonToolbar>
-        </IonHeader> */}
         <IonCard>
           <IonItem>
             <IonLabel>
@@ -70,8 +66,11 @@ const Ready = ({ match }) => {
               <p>単語帳の並びをランダムにします。</p>
             </IonLabel>
             <IonToggle
-              value={random}
-              onIonChange={(e) => setRandom(e.detail.checked)}
+              checked={random}
+              onIonChange={(e) => {
+                setRandom(e.detail.checked);
+                dispatch(changeRandom(Id));
+              }}
             />
           </IonItem>
           <IonItem>
@@ -80,8 +79,11 @@ const Ready = ({ match }) => {
               <p>入力形式から選択形式にします。</p>
             </IonLabel>
             <IonToggle
-              value={four}
-              onIonChange={(e) => setFour(e.detail.checked)}
+              checked={four}
+              onIonChange={(e) => {
+                setFour(e.detail.checked);
+                dispatch(changeFour(Id));
+              }}
             />
           </IonItem>
           <IonItem>
@@ -90,9 +92,12 @@ const Ready = ({ match }) => {
               <p>文字列が完全に一致しているとき正解になります。</p>
             </IonLabel>
             <IonToggle
+              checked={strict}
               disabled={four}
-              value={strict}
-              onIonChange={(e) => setStrict(e.detail.checked)}
+              onIonChange={(e) => {
+                setStrict(e.detail.checked);
+                dispatch(changeStrict(Id));
+              }}
             />
           </IonItem>
           <IonItem>
@@ -101,8 +106,11 @@ const Ready = ({ match }) => {
               <p>単語帳の訳を表にします。</p>
             </IonLabel>
             <IonToggle
-              value={reverse}
-              onIonChange={(e) => setReverse(e.detail.checked)}
+              checked={reverse}
+              onIonChange={(e) => {
+                setReverse(e.detail.checked);
+                dispatch(changeReverse(Id));
+              }}
             />
           </IonItem>
         </IonCard>

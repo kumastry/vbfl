@@ -25,27 +25,8 @@ const Achievement = () => {
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const { achievedNames } = useSelector((state) => state.achievements);
+  console.log(achievedNames);
   const dispatch = useDispatch();
-
-  // const achievementList = useSelector(
-  //   (state) => state.achievements.achievement
-  // );
-  // const splitList = () => {
-  //   const tmp = [];
-  //   let tmp3 = [];
-  //   for (let i = 1; i <= achievementList.length; i++) {
-  //     if (i % 3 !== 0) {
-  //       tmp3.push(achievementList[i - 1]);
-  //     } else {
-  //       tmp3.push(achievementList[i - 1]);
-  //       tmp.push(tmp3);
-  //       tmp3 = [];
-  //     }
-  //   }
-  //   if (tmp3.length > 0) tmp.push(tmp3);
-  //   return tmp;
-  // };
-  // const list = splitList();
 
   return (
     <IonPage>

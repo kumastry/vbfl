@@ -28,12 +28,10 @@ const MainPage = () => {
           id: nanoid(),
           title,
           content: [],
-          type: {
-            random: false,
-            four: false,
-            reverse: false,
-            strict: false,
-          },
+          random: false,
+          four: false,
+          reverse: false,
+          strict: false,
         })
       );
     }
