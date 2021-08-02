@@ -36,8 +36,6 @@ const shuffleArray = ([...array]) => {
 
 const removeCorrect = ([...array], correctId) => {
   let removeId = -1;
-  console.log(array);
-  console.log(correctId);
   for(let i = 0; i < array.length; i++) {
     if(array[i]['translateId'] === correctId) {
       removeId =i;
@@ -51,24 +49,26 @@ const removeCorrect = ([...array], correctId) => {
   return array;
 }
 
+let correctNumber = 0;
+
+
 const Test = ({ match }) => {
   // localStorage.clear();
   // redux系準備
+  const [showAlert, setShowAlert] = useState(false);
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
-
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const handleLink = (path) => history.push(path);
-
   const [curId, setcurId] = useState(0);
   const [alter, setAlter] = useState([]);
   const wordCardsLength = Words.content.length;
-
   const words = [];
   let translates = [];
   let translateId = 0;
+  
   for (const item of Words.content) {
     words.push({word:item.word, translate:item.translate, translateId});
     translates.push({translateId, translate:item.translate});
@@ -77,37 +77,70 @@ const Test = ({ match }) => {
 
   const ClickHander = (inputId, currentId) => {
     if(inputId === currentId) {
-      correctNumber ++;
-      alert("正解，正解数:"+correctNumber);
-      
+      correctNumber++;
+      alert(correctNumber);
     } else {
-      alert("不正解")
+      alert("不正解");
     }
+    if(curId < wordCardsLength-1) {
+      setcurId(curId+1);
+    } else {
 
-    setcurId(curId+1);
+      setShowAlert(true);
+    }
   }
+
   console.log(words);
   console.log(translates);
 
   const reversed = false;
-  let correctNumber = 0;
-
-
+  const dismiss = () => {
+    setShowAlert(false);
+    window.location.href = 'tab1';
+  }
+  const Alert = () => {
+  
+    return (
+      <IonAlert
+      isOpen={showAlert}
+      onDidDismiss={() => dismiss()}
+      cssClass='my-custom-class'
+      header={'Alert'}
+      subHeader={'Subtitle'}
+      message={'正解'}
+      buttons={[
+        {
+          text:'もう一回やる',
+          handler:() => {
+            window.location.href = `ready{id}`;
+          }
+        },
+        {
+        text:'戻る',
+        handler:() => {
+          window.location.href = "\tab1";
+        }
+      }]}
+    />
+  
+    );
+  }
+  
 
   useEffect(() => {
     let alternative = [];
     const transArray = removeCorrect(shuffleArray(translates), words[curId]['translateId']);
-    console.log(transArray);
+    //console.log(transArray);
     alternative.push({translateId:words[curId]['translateId'], translate:words[curId]['translate']});
-    console.log("####");
-    console.log(alternative);
+    //console.log("####");
+    //console.log(alternative);
     for(let i = 0; i < 3; i++) {
       alternative.push({translateId:transArray[i]['translateId'], translate:transArray[i]['translate']});
     }
 
     alternative = shuffleArray(alternative);
     setAlter(alternative);
-    console.log(alter);
+    //console.log(alter);
   }, [curId]);
 
   
@@ -143,7 +176,7 @@ const Test = ({ match }) => {
                     {`${curId + 1} / ${wordCardsLength}`}
                   </IonCardSubtitle>
                   <IonCardTitle>
-                    {curId >=  wordCardsLength? "正解数:"+correctNumber: words[curId]['word']}
+                    {curId >=  wordCardsLength? "正解数:" + correctNumber: words[curId]['word']}
                   </IonCardTitle>
                 </IonCardHeader>
               </IonCard>
@@ -200,6 +233,7 @@ const Test = ({ match }) => {
             },
           ]}
         />
+        <Alert/>
       </IonContent>
     </IonPage>
   );
