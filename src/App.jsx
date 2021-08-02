@@ -8,10 +8,11 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IonReactRouter } from "@ionic/react-router";
 import { pricetags, ribbon, build } from "ionicons/icons";
 import Tab1 from "./pages/Main";
-// import Tab2 from "./pages/Quiz";
 import Achievement from "./pages/Achievement";
 import Settings from "./pages/Settings";
 
@@ -20,6 +21,8 @@ import NotFound from "./components/NotFound";
 import Cardcontent from "./components/Cardcontent";
 import AddContent from "./components/AddContent";
 import Test from "./components/Test";
+
+import { toggleAchievement } from "./slices/achievementSlice";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -41,6 +44,15 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 const App = () => {
+  const { totalCollectCount, continuousCollectCount } = useSelector(
+    (state) => state.achievements
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(toggleAchievement({ targetType: "collect" }));
+  }, [totalCollectCount, continuousCollectCount]);
+
   return (
     <IonApp>
       <IonReactRouter>
