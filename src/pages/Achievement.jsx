@@ -10,23 +10,16 @@ import {
   IonCard,
   IonCardContent,
   IonAlert,
-  IonButton,
 } from "@ionic/react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ACHIEVEMENTS } from "../const/achievement";
-import {
-  totalCollectCountUp,
-  toggleAchivement,
-} from "../slices/achievementSlice";
 
 const Achievement = () => {
   // localStorage.clear();
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const { achievedNames } = useSelector((state) => state.achievements);
-  console.log(achievedNames);
-  const dispatch = useDispatch();
 
   return (
     <IonPage>
@@ -36,13 +29,6 @@ const Achievement = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* <IonButton
-          onClick={() => {
-            dispatch(totalCollectCountUp());
-          }}
-        >
-          awesome button!
-        </IonButton> */}
         <IonGrid>
           <IonRow>
             {ACHIEVEMENTS.map((achievement) => {

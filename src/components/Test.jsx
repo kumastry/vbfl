@@ -18,6 +18,8 @@ import {
   IonButton,
   IonIcon,
   IonAlert,
+  IonItem,
+  IonInput,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,11 +59,9 @@ const Test = ({ match }) => {
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
   const dispatch = useDispatch();
-  const reversed = false;
 
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
-  const handleLink = (path) => history.push(path);
   const [curId, setcurId] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [alter, setAlter] = useState([]);
@@ -71,6 +71,9 @@ const Test = ({ match }) => {
   let translateId = 0;
 
   const [data, setData] = useState([]);
+  const [inputText, setInputText] = useState("");
+
+  const handleLink = (path) => history.push(path);
 
   for (const item of Words.content) {
     words.push({ word: item.word, translate: item.translate, translateId });
@@ -82,10 +85,9 @@ const Test = ({ match }) => {
     return <IonAlert isOpen={alert} header={"結果"} message={msg} />;
   };
 
-  const ClickHander = (inputId, currentId) => {
+  const fourClickHander = (inputId, currentId) => {
     if (inputId === currentId) {
       setCorrect(correct + 1);
-      dispatch(totalCollectCountUp());
       setShowAlert1(true);
       setTimeout(() => {
         setShowAlert1(false);
@@ -98,6 +100,28 @@ const Test = ({ match }) => {
         setcurId(curId + 1);
       }, 1000);
     }
+  };
+
+  const inputClickHander = () => {
+    if (inputText === words[curId]["translate"]) {
+      setCorrect(correct + 1);
+      setShowAlert1(true);
+      setTimeout(() => {
+        setShowAlert1(false);
+        setcurId(curId + 1);
+      }, 1000);
+    } else {
+      setShowAlert2(true);
+      setTimeout(() => {
+        setShowAlert2(false);
+        setcurId(curId + 1);
+      }, 1000);
+    }
+    setInputText("");
+    setTimeout(() => {
+      setShowAlert1(false);
+      setcurId(curId + 1);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -121,127 +145,208 @@ const Test = ({ match }) => {
       alternative = shuffleArray(alternative);
       setAlter(alternative);
     } else {
-      const tmp = [
+      dispatch(totalCollectCountUp(correct));
+      setData(
         { name: "Group A", value: correct },
-        { name: "Group B", value: wordCardsLength - correct },
-      ];
-      setData(tmp);
+        { name: "Group B", value: wordCardsLength - correct }
+      );
     }
   }, [curId]);
 
   return (
     <IonPage>
       {(() => {
-        if (curId < wordCardsLength) {
-          return (
-            <>
-              <IonHeader>
-                <IonToolbar>
-                  <IonTitle>test</IonTitle>
-                  <IonButtons slot="start">
-                    <IonButton
-                      type="button"
-                      color="danger"
-                      onClick={() => setShowModal(true)}
-                    >
-                      <IonIcon icon={chevronBack} />
-                      やめる
-                    </IonButton>
-                  </IonButtons>
-                </IonToolbar>
-              </IonHeader>
-
-              <IonContent fullscreen>
-                <IonHeader collapse="condense">
+        if (Words.four) {
+          if (curId < wordCardsLength) {
+            return (
+              <>
+                <IonHeader>
                   <IonToolbar>
-                    <IonTitle size="large">test</IonTitle>
+                    <IonTitle>result</IonTitle>
+                    <IonButtons slot="start">
+                      <IonButton
+                        type="button"
+                        color="danger"
+                        onClick={() => setShowModal(true)}
+                      >
+                        <IonIcon icon={chevronBack} />
+                        やめる
+                      </IonButton>
+                    </IonButtons>
                   </IonToolbar>
                 </IonHeader>
-                <IonCard key={curId}>
-                  <IonCard>
-                    <IonCardHeader>
-                      <IonCardSubtitle>
-                        {`${curId + 1} / ${wordCardsLength}`}
-                      </IonCardSubtitle>
-                      <IonCardTitle>
-                        {curId >= wordCardsLength
-                          ? `正解数:  ${correct}`
-                          : words[curId]["word"]}
-                      </IonCardTitle>
-                    </IonCardHeader>
+
+                <IonContent fullscreen>
+                  <IonCard key={curId}>
+                    <IonCard>
+                      <IonCardHeader>
+                        <IonCardSubtitle>
+                          {`${curId + 1} / ${wordCardsLength}`}
+                        </IonCardSubtitle>
+                        <IonCardTitle>
+                          {curId >= wordCardsLength
+                            ? `正解数:  ${correct}`
+                            : words[curId]["word"]}
+                        </IonCardTitle>
+                      </IonCardHeader>
+                    </IonCard>
+
+                    <IonGrid>
+                      <IonRow>
+                        <IonCol offset-4>
+                          <IonCard
+                            onClick={() =>
+                              fourClickHander(alter[0]["translateId"], curId)
+                            }
+                          >
+                            <IonLabel>1.</IonLabel>
+                            <IonCardContent>
+                              {alter.length === 0
+                                ? "loading..."
+                                : alter[0]["translate"]}
+                            </IonCardContent>
+                          </IonCard>
+                        </IonCol>
+
+                        <IonCol offset-4>
+                          <IonCard
+                            onClick={() =>
+                              fourClickHander(alter[1]["translateId"], curId)
+                            }
+                          >
+                            <IonLabel>2.</IonLabel>
+                            <IonCardContent>
+                              {alter.length === 0
+                                ? "loading..."
+                                : alter[1]["translate"]}
+                            </IonCardContent>
+                          </IonCard>
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonCol offset-4>
+                          <IonCard
+                            onClick={() =>
+                              fourClickHander(alter[2]["translateId"], curId)
+                            }
+                          >
+                            <IonLabel>3.</IonLabel>
+                            <IonCardContent>
+                              {alter.length === 0
+                                ? "loading..."
+                                : alter[2]["translate"]}
+                            </IonCardContent>
+                          </IonCard>
+                        </IonCol>
+                        <IonCol offset-4>
+                          <IonCard
+                            onClick={() =>
+                              fourClickHander(alter[3]["translateId"], curId)
+                            }
+                          >
+                            <IonLabel>4.</IonLabel>
+                            <IonCardContent>
+                              {alter.length === 0
+                                ? "loading..."
+                                : alter[3]["translate"]}
+                            </IonCardContent>
+                          </IonCard>
+                        </IonCol>
+                      </IonRow>
+                    </IonGrid>
                   </IonCard>
 
+                  {/* <IonProgressBar value={1}></IonProgressBar> */}
+                  <IonAlert
+                    isOpen={showModal}
+                    onDidDismiss={() => setShowModal(false)}
+                    cssClass="my-custom-class"
+                    message={"今回の結果は保存されません。本当にやめますか？"}
+                    buttons={[
+                      {
+                        text: "キャンセル",
+                        role: "cancel",
+                      },
+                      {
+                        text: "OK",
+                        handler: () => handleLink("/"),
+                      },
+                    ]}
+                  />
+                  <AnswerAlert
+                    alert={showAlert1}
+                    msg={`正解!! 正解数:${correct}`}
+                  />
+                  <AnswerAlert
+                    alert={showAlert2}
+                    msg={`不正解... 正解数:${correct}`}
+                  />
+                </IonContent>
+              </>
+            );
+          } else {
+            return (
+              <>
+                <IonHeader>
+                  <IonToolbar>
+                    <IonTitle>test</IonTitle>
+                    <IonButtons slot="start">
+                      <IonButton
+                        type="button"
+                        color="danger"
+                        onClick={() => setShowModal(true)}
+                      >
+                        <IonIcon icon={chevronBack} />
+                        おわる
+                      </IonButton>
+                    </IonButtons>
+                  </IonToolbar>
+                </IonHeader>
+
+                <IonContent fullscreen>
+                  <IonHeader collapse="condense">
+                    <IonToolbar>
+                      <IonTitle size="large">test</IonTitle>
+                    </IonToolbar>
+                  </IonHeader>
                   <IonGrid>
                     <IonRow>
-                      <IonCol offset-4>
-                        <IonCard
-                          onClick={() =>
-                            ClickHander(alter[0]["translateId"], curId)
-                          }
-                        >
-                          <IonLabel>1.</IonLabel>
-                          <IonCardContent>
-                            {alter.length === 0
-                              ? "loading..."
-                              : alter[0]["translate"]}
-                          </IonCardContent>
-                        </IonCard>
+                      <IonCol>
+                        <IonCard>正解数{correct}</IonCard>
                       </IonCol>
-
-                      <IonCol offset-4>
-                        <IonCard
-                          onClick={() =>
-                            ClickHander(alter[1]["translateId"], curId)
-                          }
-                        >
-                          <IonLabel>2.</IonLabel>
-                          <IonCardContent>
-                            {alter.length === 0
-                              ? "loading..."
-                              : alter[1]["translate"]}
-                          </IonCardContent>
-                        </IonCard>
+                      <IonCol>
+                        <IonCard>正解数{correct}</IonCard>
                       </IonCol>
-                    </IonRow>
-                    <IonRow>
-                      <IonCol offset-4>
-                        <IonCard
-                          onClick={() =>
-                            ClickHander(alter[2]["translateId"], curId)
-                          }
-                        >
-                          <IonLabel>3.</IonLabel>
-                          <IonCardContent>
-                            {alter.length === 0
-                              ? "loading..."
-                              : alter[2]["translate"]}
-                          </IonCardContent>
-                        </IonCard>
-                      </IonCol>
-                      <IonCol offset-4>
-                        <IonCard
-                          onClick={() =>
-                            ClickHander(alter[3]["translateId"], curId)
-                          }
-                        >
-                          <IonLabel>4.</IonLabel>
-                          <IonCardContent>
-                            {alter.length === 0
-                              ? "loading..."
-                              : alter[3]["translate"]}
-                          </IonCardContent>
-                        </IonCard>
+                      <IonCol>
+                        <IonCard>正解数{correct}</IonCard>
                       </IonCol>
                     </IonRow>
                   </IonGrid>
-                </IonCard>
-
-                {/* <IonProgressBar value={1}></IonProgressBar> */}
+                  <ResponsiveContainer width="50%" height="50%">
+                    <PieChart width={100} height={100}>
+                      <Pie
+                        dataKey="value"
+                        isAnimationActive={false}
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        legendType="circle"
+                        startAngle={450}
+                        endAngle={90}
+                        label
+                      >
+                        <Cell fill="#4169E1" />
+                        <Cell fill="#ff4500" />
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </IonContent>
                 <IonAlert
                   isOpen={showModal}
                   onDidDismiss={() => setShowModal(false)}
                   cssClass="my-custom-class"
-                  message={"今回の結果は保存されません。本当にやめますか？"}
+                  message={"単語帳選択画面に戻ります。よろしいですか？"}
                   buttons={[
                     {
                       text: "キャンセル",
@@ -253,93 +358,161 @@ const Test = ({ match }) => {
                     },
                   ]}
                 />
-                <AnswerAlert
-                  alert={showAlert1}
-                  msg={`正解!! 正解数:${correct}`}
-                />
-                <AnswerAlert
-                  alert={showAlert2}
-                  msg={`不正解 正解数:${correct}`}
-                />
-              </IonContent>
-            </>
-          );
+              </>
+            );
+          }
         } else {
-          return (
-            <>
-              <IonHeader>
-                <IonToolbar>
-                  <IonTitle>test</IonTitle>
-                  <IonButtons slot="start">
-                    <IonButton
-                      type="button"
-                      color="danger"
-                      onClick={() => setShowModal(true)}
-                    >
-                      <IonIcon icon={chevronBack} />
-                      おわる
-                    </IonButton>
-                  </IonButtons>
-                </IonToolbar>
-              </IonHeader>
-
-              <IonContent fullscreen>
-                <IonHeader collapse="condense">
+          if (curId < wordCardsLength) {
+            return (
+              <>
+                <IonHeader>
                   <IonToolbar>
-                    <IonTitle size="large">test</IonTitle>
+                    <IonTitle>test</IonTitle>
+                    <IonButtons slot="start">
+                      <IonButton
+                        type="button"
+                        color="danger"
+                        onClick={() => setShowModal(true)}
+                      >
+                        <IonIcon icon={chevronBack} />
+                        やめる
+                      </IonButton>
+                    </IonButtons>
                   </IonToolbar>
                 </IonHeader>
-                <IonGrid>
-                  <IonRow>
-                    <IonCol>
-                      <IonCard>正解数{correct}</IonCard>
-                    </IonCol>
-                    <IonCol>
-                      <IonCard>正解数{correct}</IonCard>
-                    </IonCol>
-                    <IonCol>
-                      <IonCard>正解数{correct}</IonCard>
-                    </IonCol>
-                  </IonRow>
-                </IonGrid>
-                <ResponsiveContainer width="50%" height="50%">
-                  <PieChart width={100} height={100}>
-                    <Pie
-                      dataKey="value"
-                      isAnimationActive={false}
-                      data={data}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      legendType="circle"
-                      startAngle={450}
-                      endAngle={90}
-                      label
-                    >
-                      <Cell fill="#4169E1" />
-                      <Cell fill="#ff4500" />
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </IonContent>
-              <IonAlert
-                isOpen={showModal}
-                onDidDismiss={() => setShowModal(false)}
-                cssClass="my-custom-class"
-                message={"単語帳選択画面に戻ります。よろしいですか？"}
-                buttons={[
-                  {
-                    text: "キャンセル",
-                    role: "cancel",
-                  },
-                  {
-                    text: "OK",
-                    handler: () => handleLink("/"),
-                  },
-                ]}
-              />
-            </>
-          );
+
+                <IonContent fullscreen>
+                  <IonCard>
+                    <IonCard>
+                      <IonCardHeader>
+                        <IonCardSubtitle>
+                          {`${curId + 1} / ${wordCardsLength}`}
+                        </IonCardSubtitle>
+                        <IonCardTitle>
+                          {curId >= wordCardsLength
+                            ? `正解数:  ${correct}`
+                            : words[curId]["word"]}
+                        </IonCardTitle>
+                      </IonCardHeader>
+                    </IonCard>
+                    <IonCard>
+                      <IonInput
+                        value={inputText}
+                        placeholder="解答を入力"
+                        onIonChange={(e) => {
+                          setInputText(e.target.value);
+                        }}
+                      />
+                    </IonCard>
+                  </IonCard>
+
+                  {/* <IonProgressBar value={1}></IonProgressBar> */}
+                  <IonAlert
+                    isOpen={showModal}
+                    onDidDismiss={() => setShowModal(false)}
+                    cssClass="my-custom-class"
+                    message={"今回の結果は保存されません。本当にやめますか？"}
+                    buttons={[
+                      {
+                        text: "キャンセル",
+                        role: "cancel",
+                      },
+                      {
+                        text: "OK",
+                        handler: () => handleLink("/"),
+                      },
+                    ]}
+                  />
+                  <AnswerAlert
+                    alert={showAlert1}
+                    msg={`正解!! 正解数:${correct}`}
+                  />
+                  <AnswerAlert
+                    alert={showAlert2}
+                    msg={`不正解... 正解数:${correct}`}
+                  />
+                </IonContent>
+                <IonButton
+                  className="ion-margin"
+                  expand="block"
+                  onClick={inputClickHander}
+                >
+                  awesome button!
+                </IonButton>
+              </>
+            );
+          } else {
+            return (
+              <>
+                <IonHeader>
+                  <IonToolbar>
+                    <IonTitle>result</IonTitle>
+                    <IonButtons slot="start">
+                      <IonButton
+                        type="button"
+                        color="danger"
+                        onClick={() => setShowModal(true)}
+                      >
+                        <IonIcon icon={chevronBack} />
+                        おわる
+                      </IonButton>
+                    </IonButtons>
+                  </IonToolbar>
+                </IonHeader>
+
+                <IonContent fullscreen>
+                  <IonGrid>
+                    <IonRow>
+                      <IonCol>
+                        <IonCard>正解数{correct}</IonCard>
+                      </IonCol>
+                      <IonCol>
+                        <IonCard>正解数{correct}</IonCard>
+                      </IonCol>
+                      <IonCol>
+                        <IonCard>正解数{correct}</IonCard>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
+                  <ResponsiveContainer width="50%" height="50%">
+                    <PieChart width={100} height={100}>
+                      <Pie
+                        dataKey="value"
+                        isAnimationActive={false}
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        legendType="circle"
+                        startAngle={450}
+                        endAngle={90}
+                        label
+                      >
+                        <Cell fill="#4169E1" />
+                        <Cell fill="#ff4500" />
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </IonContent>
+                <IonAlert
+                  isOpen={showModal}
+                  onDidDismiss={() => setShowModal(false)}
+                  cssClass="my-custom-class"
+                  message={"単語帳選択画面に戻ります。よろしいですか？"}
+                  buttons={[
+                    {
+                      text: "キャンセル",
+                      role: "cancel",
+                    },
+                    {
+                      text: "OK",
+                      handler: () => handleLink("/"),
+                    },
+                  ]}
+                />
+              </>
+            );
+          }
         }
       })()}
     </IonPage>
