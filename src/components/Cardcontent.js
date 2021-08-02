@@ -69,6 +69,7 @@ const Cardcontent = ({ match }) => {
   console.log(Words);
 
   useEffect(() => {
+    console.log(Words.content.length);
     setTimeout(() => {
       setShowSlide(true);
     }, 1000)
