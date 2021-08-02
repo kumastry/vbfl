@@ -11,51 +11,68 @@ import {
   IonItem,
   useIonViewWillEnter,
   IonButton,
+  useIonViewDidLeave,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/react";
 import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
 const Ready = ({ match }) => {
   const Id = match.params.cardId;
-  const [four, setFour] = useState(false); // toggleをdisableにするためのstate
-  const [wordCards, setWordCards] = useState([]);
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
-  const location = useLocation();
-  // console.log(location.pathname);
-  useIonViewWillEnter(() => {
-    const targetKey = "array";
-    if (targetKey in localStorage) {
-      const saveDate = JSON.parse(localStorage[targetKey]);
-      setWordCards([...saveDate]);
-    }
-    // console.log("hello");
+
+  // 改良の必要あり
+  const [random, setRandom] = useState(Words.type.random);
+  const [four, setFour] = useState(Words.type.four);
+  const [strict, setStrict] = useState(Words.type.strict);
+  const [reverse, setReverse] = useState(Words.type.reverse);
+  // const [wordCards, setWordCards] = useState([]);
+  // useIonViewWillEnter(() => {
+  //   const targetKey = "array";
+  //   if (targetKey in localStorage) {
+  //     const saveDate = JSON.parse(localStorage[targetKey]);
+  //     setWordCards([...saveDate]);
+  //   }
+  //   // console.log("hello");
+  // });
+  // // console.log(wordCards);
+  // // if (!(wordCards.length > 0)) {
+  // //   return null;
+  // // }
+
+  useIonViewDidLeave(() => {
+    Words.type.random = random;
+    Words.type.four = four;
+    Words.type.strict = strict;
+    Words.type.reverse = reverse;
   });
-  // console.log(wordCards);
-  // if (!(wordCards.length > 0)) {
-  //   return null;
-  // }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>{Words.title}</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tab1" />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
+        {/* <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">
-              {/* {wordCards.length > 0 && wordCards[target].title} */}
-            </IonTitle>
+            <IonTitle size="large">{Words.title}</IonTitle>
           </IonToolbar>
-        </IonHeader>
+        </IonHeader> */}
         <IonCard>
           <IonItem>
             <IonLabel>
               <h2>ランダムに出題</h2>
               <p>単語帳の並びをランダムにします。</p>
             </IonLabel>
-            <IonToggle value="randam" value="randam" />
+            <IonToggle
+              value={random}
+              onIonChange={(e) => setRandom(e.detail.checked)}
+            />
           </IonItem>
           <IonItem>
             <IonLabel>
@@ -72,14 +89,21 @@ const Ready = ({ match }) => {
               <h2>strictモードにする</h2>
               <p>文字列が完全に一致しているとき正解になります。</p>
             </IonLabel>
-            <IonToggle disabled={four} value="strict" />
+            <IonToggle
+              disabled={four}
+              value={strict}
+              onIonChange={(e) => setStrict(e.detail.checked)}
+            />
           </IonItem>
           <IonItem>
             <IonLabel>
               <h2>単語を裏返す</h2>
               <p>単語帳の訳を表にします。</p>
             </IonLabel>
-            <IonToggle value="reversed" />
+            <IonToggle
+              value={reverse}
+              onIonChange={(e) => setReverse(e.detail.checked)}
+            />
           </IonItem>
         </IonCard>
       </IonContent>

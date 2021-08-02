@@ -43,9 +43,6 @@ const AddContent = ({ match }) => {
   };
 
   const handleClick = () => {
-    console.log(wordtext);
-    console.log(444);
-    console.log(Id.cardId);
     dispatch(
       addWord({
         Id: Id.cardId,
