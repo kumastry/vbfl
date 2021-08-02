@@ -19,11 +19,10 @@ import {
   IonIcon,
   IonAlert,
 } from "@ionic/react";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { chevronBack } from "ionicons/icons";
 import { useHistory } from "react-router";
-import { totalCollectCountUp } from "../slices/achievementSlice";
 
 const shuffleArray = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -51,7 +50,6 @@ const Test = ({ match }) => {
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
-  const dispatch = useDispatch();
   const reversed = false;
 
   const [showModal, setShowModal] = useState(false);
@@ -75,7 +73,6 @@ const Test = ({ match }) => {
   const ClickHander = (inputId, currentId) => {
     if (inputId === currentId) {
       setCorrect(correct + 1);
-      dispatch(totalCollectCountUp());
       alert(`正解，正解数: ${correct + 1}`);
     } else {
       alert("不正解");

@@ -10,42 +10,33 @@ import {
   IonCard,
   IonCardContent,
   IonAlert,
-  IonButton,
 } from "@ionic/react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ACHIEVEMENTS } from "../const/achievement";
-import {
-  totalCollectCountUp,
-  toggleAchivement,
-} from "../slices/achievementSlice";
+import { useSelector } from "react-redux";
 
 const Achievement = () => {
   // localStorage.clear();
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
-  const { achievedNames } = useSelector((state) => state.achievements);
-  const dispatch = useDispatch();
-
-  // const achievementList = useSelector(
-  //   (state) => state.achievements.achievement
-  // );
-  // const splitList = () => {
-  //   const tmp = [];
-  //   let tmp3 = [];
-  //   for (let i = 1; i <= achievementList.length; i++) {
-  //     if (i % 3 !== 0) {
-  //       tmp3.push(achievementList[i - 1]);
-  //     } else {
-  //       tmp3.push(achievementList[i - 1]);
-  //       tmp.push(tmp3);
-  //       tmp3 = [];
-  //     }
-  //   }
-  //   if (tmp3.length > 0) tmp.push(tmp3);
-  //   return tmp;
-  // };
-  // const list = splitList();
+  const achievementList = useSelector(
+    (state) => state.achievements.achievement
+  );
+  const splitList = () => {
+    const tmp = [];
+    let tmp3 = [];
+    for (let i = 1; i <= achievementList.length; i++) {
+      if (i % 3 !== 0) {
+        tmp3.push(achievementList[i - 1]);
+      } else {
+        tmp3.push(achievementList[i - 1]);
+        tmp.push(tmp3);
+        tmp3 = [];
+      }
+    }
+    if (tmp3.length > 0) tmp.push(tmp3);
+    return tmp;
+  };
+  const list = splitList();
 
   return (
     <IonPage>
@@ -55,36 +46,31 @@ const Achievement = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* <IonButton
-          onClick={() => {
-            dispatch(totalCollectCountUp());
-          }}
-        >
-          awesome button!
-        </IonButton> */}
         <IonGrid>
-          <IonRow>
-            {ACHIEVEMENTS.map((achievement) => {
-              return (
-                <IonCol size="4" key={achievement.name}>
-                  <IonCard
-                    onClick={() => {
-                      if (!achievedNames?.includes(achievement.name)) {
-                        setMessage(achievement.hint);
-                        setShowModal(true);
-                      }
-                    }}
-                  >
-                    <IonCardContent>
-                      {achievedNames?.includes(achievement.name)
-                        ? achievement.name
-                        : "???"}
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              );
-            })}
-          </IonRow>
+          {list.map((set, rowIndex) => {
+            return (
+              <IonRow key={rowIndex}>
+                {set.map((data, colIndex) => {
+                  const info = data.info;
+                  const name = info.achieved ? info.name : "???";
+                  return (
+                    <IonCol key={colIndex}>
+                      <IonCard
+                        onClick={() => {
+                          if (!info.achieved) {
+                            setMessage(info.hint);
+                            setShowModal(true);
+                          }
+                        }}
+                      >
+                        <IonCardContent>{name}</IonCardContent>
+                      </IonCard>
+                    </IonCol>
+                  );
+                })}
+              </IonRow>
+            );
+          })}
         </IonGrid>
       </IonContent>
       <IonAlert
@@ -95,7 +81,7 @@ const Achievement = () => {
         message={message}
         buttons={[
           {
-            text: "閉じる",
+            text: "もどる",
             role: "cancel",
           },
         ]}
