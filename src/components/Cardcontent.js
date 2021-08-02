@@ -11,10 +11,11 @@ import {
   IonTitle,
   IonButtons,
   IonBackButton,
+  IonLoading,
 } from "@ionic/react";
 import { useSelector } from "react-redux";
 import {useLongPress } from 'use-long-press';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 const SlideOpts = {
   initialSlide: 0,
@@ -25,12 +26,23 @@ const Cardcontent = ({ match }) => {
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   let Words = WS.find((data) => data.id === Id);
+  const [showSlide, setShowSlide] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
+  const Loading = () => {
+    return(
+      <IonLoading
+      isOpen={showLoading}
+      onDidDismiss = {() => setShowLoading(false)}
+      message={"単語帳を読み込み中"}
+      duration={5000}
+      />
+    )
+  }
   const callback = useCallback(event => {
     
     setShowActionSheet(true);
   }, []);
   const [enabled, setEnabled] = useState(true);
-
   const [showActionSheet, setShowActionSheet] = useState(false);
 
   const bind = useLongPress(enabled ? callback : null, {
@@ -56,6 +68,11 @@ const Cardcontent = ({ match }) => {
   }
   console.log(Words);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSlide(true);
+    }, 1000)
+  }, []);
   return (
     <IonPage>
       <IonHeader>
@@ -72,7 +89,8 @@ const Cardcontent = ({ match }) => {
             <IonTitle size="large">{Words.title}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonSlides
+
+        {showSlide === true ? <IonSlides
           options={SlideOpts}
           pager={true}
           style={{ height: "70%", width: "90%" }}
@@ -98,7 +116,7 @@ const Cardcontent = ({ match }) => {
               </IonSlide>
             );
           })}
-        </IonSlides>
+        </IonSlides>:<Loading/>}
 
         <IonActionSheet
         isOpen={showActionSheet}

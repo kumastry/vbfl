@@ -51,7 +51,8 @@ let correctNumber = 0;
 const Test = ({ match }) => {
   // localStorage.clear();
   // redux系準備
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert1, setShowAlert1] = useState(false);
+  const [showAlert2, setShowAlert2] = useState(false);
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
@@ -75,15 +76,35 @@ const Test = ({ match }) => {
     translateId++;
   }
 
+  const AnswerAlert = ({alert , msg}) => {
+    return(
+      <IonAlert
+      isOpen={alert}
+      header={"結果"}
+      message = {msg}
+      />
+    );
+  }
+
+  
+
   const ClickHander = (inputId, currentId) => {
     if (inputId === currentId) {
       setCorrect(correct + 1);
       dispatch(totalCollectCountUp());
-      alert(`正解，正解数: ${correct + 1}`);
+      setShowAlert1(true);
+      setTimeout(() => {
+        setShowAlert1(false);
+        setcurId(curId + 1);
+      }, 1000);
     } else {
-      alert("不正解");
+      setShowAlert2(true);
+      setTimeout(() => {
+        setShowAlert2(false);
+        setcurId(curId + 1);
+      }, 1000);
     }
-    setcurId(curId + 1);
+    
   };
 
   useEffect(() => {
@@ -233,6 +254,8 @@ const Test = ({ match }) => {
                     },
                   ]}
                 />
+                <AnswerAlert alert = {showAlert1} msg = {`正解!! 正解数:${correct}`}/>
+                <AnswerAlert alert = {showAlert2} msg = {`不正解 正解数:${correct}`}/>
               </IonContent>
             </>
           );
