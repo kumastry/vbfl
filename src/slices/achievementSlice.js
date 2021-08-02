@@ -15,7 +15,7 @@ export const achievementsSlice = createSlice({
       state.continuousCollectCount += 1;
     },
     totalCollectCountUp: (state, action) => {
-      state.totalCollectCount += action.payload;
+      state.totalCollectCount += action.payload; // 渡された引数だけtotalCollectCountが増える
     },
 
     toggleAchievement: (state, action) => {

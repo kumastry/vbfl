@@ -48,8 +48,6 @@ const removeCorrect = ([...array], correctId) => {
   return array;
 };
 
-let correctNumber = 0;
-
 const Test = ({ match }) => {
   // localStorage.clear();
   // redux系準備
@@ -126,30 +124,32 @@ const Test = ({ match }) => {
 
   useEffect(() => {
     if (curId < wordCardsLength) {
-      let alternative = [];
-      const transArray = removeCorrect(
-        shuffleArray(translates),
-        words[curId]["translateId"]
-      );
-      alternative.push({
-        translateId: words[curId]["translateId"],
-        translate: words[curId]["translate"],
-      });
-      for (let i = 0; i < 3; i++) {
+      if (Words.four) {
+        let alternative = [];
+        const transArray = removeCorrect(
+          shuffleArray(translates),
+          words[curId]["translateId"]
+        );
         alternative.push({
-          translateId: transArray[i]["translateId"],
-          translate: transArray[i]["translate"],
+          translateId: words[curId]["translateId"],
+          translate: words[curId]["translate"],
         });
-      }
+        for (let i = 0; i < 3; i++) {
+          alternative.push({
+            translateId: transArray[i]["translateId"],
+            translate: transArray[i]["translate"],
+          });
+        }
 
-      alternative = shuffleArray(alternative);
-      setAlter(alternative);
+        alternative = shuffleArray(alternative);
+        setAlter(alternative);
+      }
     } else {
       dispatch(totalCollectCountUp(correct));
-      setData(
+      setData([
         { name: "Group A", value: correct },
-        { name: "Group B", value: wordCardsLength - correct }
-      );
+        { name: "Group B", value: wordCardsLength - correct },
+      ]);
     }
   }, [curId]);
 
@@ -322,8 +322,8 @@ const Test = ({ match }) => {
                       </IonCol>
                     </IonRow>
                   </IonGrid>
-                  <ResponsiveContainer width="50%" height="50%">
-                    <PieChart width={100} height={100}>
+                  <ResponsiveContainer width="100%" height="80%">
+                    <PieChart width={1000} height={1000}>
                       <Pie
                         dataKey="value"
                         isAnimationActive={false}
@@ -474,8 +474,8 @@ const Test = ({ match }) => {
                       </IonCol>
                     </IonRow>
                   </IonGrid>
-                  <ResponsiveContainer width="50%" height="50%">
-                    <PieChart width={100} height={100}>
+                  <ResponsiveContainer width="100%" height="80%">
+                    <PieChart width={1000} height={1000}>
                       <Pie
                         dataKey="value"
                         isAnimationActive={false}
