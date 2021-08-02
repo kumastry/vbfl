@@ -26,6 +26,7 @@ const Cardcontent = ({ match }) => {
   const WS = useSelector((state) => state.cards.card);
   let Words = WS.find((data) => data.id === Id);
   const callback = useCallback(event => {
+    
     setShowActionSheet(true);
   }, []);
   const [enabled, setEnabled] = useState(true);
