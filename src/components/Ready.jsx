@@ -27,26 +27,12 @@ const Ready = ({ match }) => {
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
 
-  // 改良の必要あり
   const [random, setRandom] = useState(Words.random);
   const [four, setFour] = useState(Words.four);
-  const [strict, setStrict] = useState(Words.strict);
+  // const [strict, setStrict] = useState(Words.strict);
   const [reverse, setReverse] = useState(Words.reverse);
 
   const dispatch = useDispatch();
-  // const [wordCards, setWordCards] = useState([]);
-  // useIonViewWillEnter(() => {
-  //   const targetKey = "array";
-  //   if (targetKey in localStorage) {
-  //     const saveDate = JSON.parse(localStorage[targetKey]);
-  //     setWordCards([...saveDate]);
-  //   }
-  //   // console.log("hello");
-  // });
-  // // console.log(wordCards);
-  // // if (!(wordCards.length > 0)) {
-  // //   return null;
-  // // }
 
   return (
     <IonPage>
@@ -63,7 +49,7 @@ const Ready = ({ match }) => {
           <IonItem>
             <IonLabel>
               <h2>ランダムに出題</h2>
-              <p>単語帳の並びをランダムにします。</p>
+              <p>単語の並びをランダムにします。</p>
             </IonLabel>
             <IonToggle
               checked={random}
@@ -86,7 +72,7 @@ const Ready = ({ match }) => {
               }}
             />
           </IonItem>
-          <IonItem>
+          {/* <IonItem>
             <IonLabel>
               <h2>strictモードにする</h2>
               <p>文字列が完全に一致しているとき正解になります。</p>
@@ -99,11 +85,11 @@ const Ready = ({ match }) => {
                 dispatch(changeStrict(Id));
               }}
             />
-          </IonItem>
+          </IonItem> */}
           <IonItem>
             <IonLabel>
               <h2>単語を裏返す</h2>
-              <p>単語帳の訳を表にします。</p>
+              <p>単語の訳を表にします。</p>
             </IonLabel>
             <IonToggle
               checked={reverse}
