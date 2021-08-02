@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { chevronBack } from "ionicons/icons";
 import { useHistory } from "react-router";
 import { totalCollectCountUp } from "../slices/achievementSlice";
+import { PieChart, Pie, ResponsiveContainer, Cell } from "recharts";
 
 const shuffleArray = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -47,7 +48,6 @@ const removeCorrect = ([...array], correctId) => {
 
 let correctNumber = 0;
 
-
 const Test = ({ match }) => {
   // localStorage.clear();
   // redux系準備
@@ -69,24 +69,18 @@ const Test = ({ match }) => {
   const words = [];
   let translates = [];
   let translateId = 0;
-  
+
+  const [data, setData] = useState([]);
+
   for (const item of Words.content) {
     words.push({ word: item.word, translate: item.translate, translateId });
     translates.push({ translateId, translate: item.translate });
     translateId++;
   }
 
-  const AnswerAlert = ({alert , msg}) => {
-    return(
-      <IonAlert
-      isOpen={alert}
-      header={"結果"}
-      message = {msg}
-      />
-    );
-  }
-
-  
+  const AnswerAlert = ({ alert, msg }) => {
+    return <IonAlert isOpen={alert} header={"結果"} message={msg} />;
+  };
 
   const ClickHander = (inputId, currentId) => {
     if (inputId === currentId) {
@@ -104,7 +98,6 @@ const Test = ({ match }) => {
         setcurId(curId + 1);
       }, 1000);
     }
-    
   };
 
   useEffect(() => {
@@ -127,6 +120,12 @@ const Test = ({ match }) => {
 
       alternative = shuffleArray(alternative);
       setAlter(alternative);
+    } else {
+      const tmp = [
+        { name: "Group A", value: correct },
+        { name: "Group B", value: wordCardsLength - correct },
+      ];
+      setData(tmp);
     }
   }, [curId]);
 
@@ -254,8 +253,14 @@ const Test = ({ match }) => {
                     },
                   ]}
                 />
-                <AnswerAlert alert = {showAlert1} msg = {`正解!! 正解数:${correct}`}/>
-                <AnswerAlert alert = {showAlert2} msg = {`不正解 正解数:${correct}`}/>
+                <AnswerAlert
+                  alert={showAlert1}
+                  msg={`正解!! 正解数:${correct}`}
+                />
+                <AnswerAlert
+                  alert={showAlert2}
+                  msg={`不正解 正解数:${correct}`}
+                />
               </IonContent>
             </>
           );
@@ -297,6 +302,25 @@ const Test = ({ match }) => {
                     </IonCol>
                   </IonRow>
                 </IonGrid>
+                <ResponsiveContainer width="50%" height="50%">
+                  <PieChart width={100} height={100}>
+                    <Pie
+                      dataKey="value"
+                      isAnimationActive={false}
+                      data={data}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      legendType="circle"
+                      startAngle={450}
+                      endAngle={90}
+                      label
+                    >
+                      <Cell fill="#4169E1" />
+                      <Cell fill="#ff4500" />
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
               </IonContent>
               <IonAlert
                 isOpen={showModal}
