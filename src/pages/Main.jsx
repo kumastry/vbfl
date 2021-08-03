@@ -5,15 +5,15 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
+  IonSearchbar,
 } from "@ionic/react";
 import Addbutton from "../components/Addbutton";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
 import { addCard } from "../slices/cardSlice";
 import CardsList from "../components/CardsList";
-
 
 const MainPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -44,7 +44,7 @@ const MainPage = () => {
 
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader translucent>
         <IonToolbar>
           <IonTitle>wordCards</IonTitle>
         </IonToolbar>
@@ -52,7 +52,7 @@ const MainPage = () => {
       <IonContent fullscreen>
         {/* <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">wordCards</IonTitle>
+          <IonTitle size="large">wordCards</IonTitle>
           </IonToolbar>
         </IonHeader> */}
         <CardsList />
@@ -82,7 +82,6 @@ const MainPage = () => {
         />
         <Addbutton handleClick={handleClick} />
       </IonContent>
-   
     </IonPage>
   );
 };

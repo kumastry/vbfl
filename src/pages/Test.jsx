@@ -127,13 +127,13 @@ const Test = ({ match }) => {
             .map((item, index) => (index === targetIndex ? targetItem : item));
           setSelectSet(newSelectSet);
         }
-      } else {
-        dispatch(totalCollectCountUp(correct));
-        setData([
-          { name: "Group A", value: correct },
-          { name: "Group B", value: wordCardsLength - correct },
-        ]);
       }
+    } else {
+      dispatch(totalCollectCountUp(correct));
+      setData([
+        { name: "Group A", value: correct },
+        { name: "Group B", value: wordCardsLength - correct },
+      ]);
     }
   }, [curId, answerSet]);
 
