@@ -15,7 +15,6 @@ import { IonReactRouter } from "@ionic/react-router";
 import { pricetags, ribbon, build } from "ionicons/icons";
 import Tab1 from "./pages/Main";
 import Achievement from "./pages/Achievement";
-import Settings from "./pages/Settings";
 
 import Ready from "./pages/Ready";
 import NotFound from "./pages/NotFound";
@@ -72,25 +71,13 @@ const App = () => {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/tab1" component={Tab1} />
-            <Route exact path="/tab1/words/:cardId" component={Cardcontent} />
-            <Route exact path="/tab1/add/:cardId" component={AddContent} />
-            <Route
-              exact
-              path="/tab1/delete/:cardId"
-              component={DeleteCardList}
-            />
+            <Route exact path="/" component={Tab1} />
+            <Route exact path="/words/:cardId" component={Cardcontent} />
+            <Route exact path="/add/:cardId" component={AddContent} />
+            <Route exact path="/delete/:cardId" component={DeleteCardList} />
 
             <Route exact path="/achivement">
               <Achievement />
-            </Route>
-
-            <Route exact path="/settings">
-              <Settings />
-            </Route>
-
-            <Route exact path="/">
-              <Redirect to="/tab1" />
             </Route>
 
             <Route exact path="/test/:cardId" component={Test} />
@@ -100,7 +87,7 @@ const App = () => {
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom" hidden={false}>
-            <IonTabButton tab="tab1" href="/tab1">
+            <IonTabButton tab="tab1" href="/">
               <IonIcon icon={pricetags} />
               <IonLabel>メイン</IonLabel>
             </IonTabButton>
@@ -108,11 +95,6 @@ const App = () => {
             <IonTabButton tab="Achivement" href="/achivement">
               <IonIcon icon={ribbon} />
               <IonLabel>実績</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="settings" href="/settings">
-              <IonIcon icon={build} />
-              <IonLabel>設定</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

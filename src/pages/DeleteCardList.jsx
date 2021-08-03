@@ -33,7 +33,7 @@ const DeleteCardList = ({ match }) => {
         <IonToolbar>
           <IonTitle>{words.title}</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab1" />
+            <IonBackButton defaultHref="/" />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

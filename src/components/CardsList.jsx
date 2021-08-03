@@ -30,7 +30,7 @@ const CardsList = () => {
               text: "単語帳を見る",
               icon: caretForwardCircle,
               handler: () => {
-                window.location.href = `/tab1/words/${cid}`;
+                window.location.href = `/words/${cid}`;
               },
             },
             {
@@ -44,7 +44,7 @@ const CardsList = () => {
               text: "単語を追加",
               icon: caretForwardCircle,
               handler: () => {
-                window.location.href = `/tab1/add/${cid}`;
+                window.location.href = `/add/${cid}`;
               },
             },
             {
@@ -52,7 +52,7 @@ const CardsList = () => {
               role: "destructive",
               icon: trash,
               handler: () => {
-                window.location.href = `/tab1/delete/${cid}`;
+                window.location.href = `/delete/${cid}`;
               },
             },
             {
