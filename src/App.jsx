@@ -48,7 +48,8 @@ const App = () => {
     (state) => state.achievements
   );
   const dispatch = useDispatch();
-
+  const urlState = window.location.pathname.split('/')[1];
+  console.log(urlState)
   useEffect(() => {
     dispatch(toggleAchievement({ targetType: "collect" }));
   }, [totalCollectCount, continuousCollectCount]);
@@ -80,7 +81,7 @@ const App = () => {
             <Route component={NotFound} />
           </IonRouterOutlet>
 
-          <IonTabBar slot="bottom" hidden={false}>
+          {(urlState !== 'test' && urlState !== 'ready') ? <IonTabBar slot="bottom" hidden={false}>
             <IonTabButton tab="tab1" href="/tab1">
               <IonIcon icon={pricetags} />
               <IonLabel>メイン</IonLabel>
@@ -95,7 +96,8 @@ const App = () => {
               <IonIcon icon={build} />
               <IonLabel>設定</IonLabel>
             </IonTabButton>
-          </IonTabBar>
+          </IonTabBar>:<IonTabBar/>}
+          
         </IonTabs>
       </IonReactRouter>
     </IonApp>

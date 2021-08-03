@@ -14,6 +14,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { addCard } from "../slices/cardSlice";
 import CardsList from "../components/CardsList";
 
+
 const MainPage = () => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ const MainPage = () => {
         />
         <Addbutton handleClick={handleClick} />
       </IonContent>
+   
     </IonPage>
   );
 };
