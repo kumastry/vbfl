@@ -11,7 +11,7 @@ import {
   useIonViewDidEnter,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import Ready from "../components/Ready";
+import Ready from "./Ready";
 import { Route } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 

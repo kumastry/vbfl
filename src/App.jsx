@@ -1,4 +1,5 @@
 import { Redirect, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   IonApp,
   IonIcon,
@@ -8,7 +9,7 @@ import {
   IonTabButton,
   IonTabs,
 } from "@ionic/react";
-import { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { IonReactRouter } from "@ionic/react-router";
 import { pricetags, ribbon, build } from "ionicons/icons";
@@ -16,11 +17,11 @@ import Tab1 from "./pages/Main";
 import Achievement from "./pages/Achievement";
 import Settings from "./pages/Settings";
 
-import Ready from "./components/Ready";
-import NotFound from "./components/NotFound";
+import Ready from "./pages/Ready";
+import NotFound from "./pages/NotFound";
 import Cardcontent from "./components/Cardcontent";
 import AddContent from "./components/AddContent";
-import Test from "./components/Test";
+import Test from "./pages/Test";
 
 import { toggleAchievement } from "./slices/achievementSlice";
 
@@ -48,8 +49,19 @@ const App = () => {
     (state) => state.achievements
   );
   const dispatch = useDispatch();
-  const urlState = window.location.pathname.split('/')[1];
-  console.log(urlState)
+  const [urlState, setUrlState] = useState('');
+  window.onunload = function() {
+    // IE以外用。ここは空でOKです
+  };
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+  };
+  useEffect(() => {
+    setUrlState(window.location.pathname.split('/')[1]);
+    console.log(window.location.pathname.split('/')[1]);
+  },[]);
   useEffect(() => {
     dispatch(toggleAchievement({ targetType: "collect" }));
   }, [totalCollectCount, continuousCollectCount]);

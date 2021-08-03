@@ -8,7 +8,7 @@ import {
   IonGrid,
   IonCard,
 } from "@ionic/react";
-import Ready from "../components/Ready";
+import Ready from "./Ready";
 import { Route } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

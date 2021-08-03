@@ -53,6 +53,7 @@ const Test = ({ match }) => {
   // redux系準備
   const [showAlert1, setShowAlert1] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
+  const [showAlert3, setShowAlert3] = useState(false);
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
   const Words = WS.find((data) => data.id === Id);
@@ -82,6 +83,11 @@ const Test = ({ match }) => {
   const AnswerAlert = ({ alert, msg }) => {
     return <IonAlert isOpen={alert} header={"結果"} message={msg} />;
   };
+
+  const fourex = () => {
+    setShowAlert3(false);
+    window.location.href=`ready/${Id}`;
+  }
 
   const fourClickHander = (inputId, currentId) => {
     if (inputId === currentId) {
@@ -123,6 +129,9 @@ const Test = ({ match }) => {
   };
 
   useEffect(() => {
+    if(wordCardsLength < 4) {
+      setShowAlert3(true);
+    } else {
     if (curId < wordCardsLength) {
       if (Words.four) {
         let alternative = [];
@@ -151,6 +160,7 @@ const Test = ({ match }) => {
         { name: "Group B", value: wordCardsLength - correct },
       ]);
     }
+  }
   }, [curId]);
 
   return (
@@ -280,6 +290,21 @@ const Test = ({ match }) => {
                   <AnswerAlert
                     alert={showAlert2}
                     msg={`不正解... 正解数:${correct}`}
+                  />
+
+                  <IonAlert
+                  isOpen={showAlert3}
+                  onDidDismiss = {fourex} 
+                  header={""} 
+                  message={"単語帳を4つ以上追加してください"}
+                  buttons= {[
+                    {
+                    text:"戻る",
+                    handler: () => {
+                      window.location.href = `ready/${Id}`;
+                    }
+                  }
+                  ]}
                   />
                 </IonContent>
               </>
@@ -430,6 +455,9 @@ const Test = ({ match }) => {
                   <AnswerAlert
                     alert={showAlert2}
                     msg={`不正解... 正解数:${correct}`}
+                  />
+
+                  <IonAlert
                   />
                 </IonContent>
                 <IonButton
