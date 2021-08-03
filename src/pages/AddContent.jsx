@@ -16,7 +16,7 @@ import {
   IonButtons,
   IonBackButton,
 } from "@ionic/react";
-import Addbutton from "./Addbutton";
+import Addbutton from "../components/Addbutton";
 import { useDispatch, useSelector } from "react-redux";
 import { addWord } from "../slices/cardSlice";
 

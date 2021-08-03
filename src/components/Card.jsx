@@ -10,9 +10,9 @@ import {
   IonContent,
 } from "@ionic/react";
 import { trash, share, caretForwardCircle, heart, close } from "ionicons/icons";
-import Cardcontent from "./Cardcontent";
+import Cardcontent from "../pages/Cardcontent";
 import ModalHeader from "./ModalHeader";
-import AddContent from "./AddContent";
+import AddContent from "../pages/AddContent";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 

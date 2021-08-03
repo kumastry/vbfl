@@ -19,8 +19,8 @@ import Settings from "./pages/Settings";
 
 import Ready from "./pages/Ready";
 import NotFound from "./pages/NotFound";
-import Cardcontent from "./components/Cardcontent";
-import AddContent from "./components/AddContent";
+import Cardcontent from "./pages/Cardcontent";
+import AddContent from "./pages/AddContent";
 import Test from "./pages/Test";
 
 import { toggleAchievement } from "./slices/achievementSlice";
@@ -49,6 +49,7 @@ const App = () => {
     (state) => state.achievements
   );
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const [urlState, setUrlState] = useState('');
   window.onunload = function() {
     // IE以外用。ここは空でOKです
@@ -62,6 +63,10 @@ const App = () => {
     setUrlState(window.location.pathname.split('/')[1]);
     console.log(window.location.pathname.split('/')[1]);
   },[]);
+=======
+  const urlState = window.location.pathname.split("/")[1];
+  console.log(urlState);
+>>>>>>> a7e655ccf0328107f6ebaca75f0dce2030d41448
   useEffect(() => {
     dispatch(toggleAchievement({ targetType: "collect" }));
   }, [totalCollectCount, continuousCollectCount]);
@@ -93,7 +98,7 @@ const App = () => {
             <Route component={NotFound} />
           </IonRouterOutlet>
 
-          {(urlState !== 'test' && urlState !== 'ready') ? <IonTabBar slot="bottom" hidden={false}>
+          <IonTabBar slot="bottom" hidden={false}>
             <IonTabButton tab="tab1" href="/tab1">
               <IonIcon icon={pricetags} />
               <IonLabel>メイン</IonLabel>
@@ -108,8 +113,7 @@ const App = () => {
               <IonIcon icon={build} />
               <IonLabel>設定</IonLabel>
             </IonTabButton>
-          </IonTabBar>:<IonTabBar/>}
-          
+          </IonTabBar>
         </IonTabs>
       </IonReactRouter>
     </IonApp>
