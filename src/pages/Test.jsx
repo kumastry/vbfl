@@ -17,7 +17,6 @@ import {
   IonIcon,
   IonAlert,
   IonInput,
-  IonText,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,8 +26,7 @@ import {
   totalCollectCountUp,
   continuousCountUp,
 } from "../slices/achievementSlice";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import ResultSet from "../components/ResultSet";
 
 // goooooooooooooooood!!!!!!
 const shuffleArray = ([...array]) => {
@@ -68,7 +66,6 @@ const Test = ({ match }) => {
   const [wordsSet, setWordsSet] = useState(Words.content);
   const [selectSet, setSelectSet] = useState([]);
 
-  const [data, setData] = useState([]);
   const [inputText, setInputText] = useState("");
 
   const history = useHistory();
@@ -139,10 +136,6 @@ const Test = ({ match }) => {
       }
     } else {
       dispatch(totalCollectCountUp(correct));
-      setData([
-        { name: "Group A", value: correct },
-        { name: "Group B", value: wordCardsLength - correct },
-      ]);
     }
   }, [curId, answerSet]);
 
@@ -279,21 +272,10 @@ const Test = ({ match }) => {
                   </IonToolbar>
                 </IonHeader>
 
-                <IonContent fullscreen>
-                  <IonGrid>
-                    <IonRow>
-                      <IonCol>
-                        <IonCard>正解数{correct}</IonCard>
-                      </IonCol>
-                      <IonCol>
-                        <IonCard>正解数{correct}</IonCard>
-                      </IonCol>
-                      <IonCol>
-                        <IonCard>正解数{correct}</IonCard>
-                      </IonCol>
-                    </IonRow>
-                  </IonGrid>
-                </IonContent>
+                <ResultSet
+                  correct={correct}
+                  wordCardsLength={wordCardsLength}
+                />
                 <IonAlert
                   isOpen={showModal}
                   onDidDismiss={() => setShowModal(false)}
@@ -419,40 +401,10 @@ const Test = ({ match }) => {
                     </IonButtons>
                   </IonToolbar>
                 </IonHeader>
-
-                <IonContent fullscreen>
-                  <IonGrid>
-                    <IonCard>
-                      <IonRow>
-                        <IonCol className="ion-margin">
-                          <IonText>正解率</IonText>
-                          <CircularProgressbar
-                            value={correct}
-                            maxValue={wordCardsLength}
-                            text={`${(correct / wordCardsLength) * 100} %`}
-                          />
-                        </IonCol>
-
-                        <IonCol className="ion-margin">
-                          <IonText>何か</IonText>
-                          <CircularProgressbar
-                            value={correct}
-                            maxValue={wordCardsLength}
-                            text={correct}
-                          />
-                        </IonCol>
-                        <IonCol className="ion-margin">
-                          <IonText>何か</IonText>
-                          <CircularProgressbar
-                            value={correct}
-                            maxValue={wordCardsLength}
-                            text={correct}
-                          />
-                        </IonCol>
-                      </IonRow>
-                    </IonCard>
-                  </IonGrid>
-                </IonContent>
+                <ResultSet
+                  correct={correct}
+                  wordCardsLength={wordCardsLength}
+                />
                 <IonAlert
                   isOpen={showModal}
                   onDidDismiss={() => setShowModal(false)}
