@@ -22,7 +22,10 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { chevronBack } from "ionicons/icons";
 import { useHistory } from "react-router";
-import { totalCollectCountUp } from "../slices/achievementSlice";
+import {
+  totalCollectCountUp,
+  continuousCountUp,
+} from "../slices/achievementSlice";
 import { PieChart, Pie, ResponsiveContainer, Cell } from "recharts";
 
 // goooooooooooooooood!!!!!!
@@ -81,8 +84,10 @@ const Test = ({ match }) => {
   const fourClickHander = (nowText, selectText) => {
     if (nowText === selectText) {
       setCorrect(correct + 1);
+      dispatch(continuousCountUp(1));
       switchWord(setShowAlert1, setcurId, curId);
     } else {
+      dispatch(continuousCountUp(-1));
       switchWord(setShowAlert2, setcurId, curId);
     }
   };
@@ -91,8 +96,10 @@ const Test = ({ match }) => {
     setInputText("");
     if (inputText === nowText) {
       setCorrect(correct + 1);
+      dispatch(continuousCountUp(1));
       switchWord(setShowAlert1, setcurId, curId);
     } else {
+      dispatch(continuousCountUp(-1));
       switchWord(setShowAlert2, setcurId, curId);
     }
   };

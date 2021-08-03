@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ACHIEVEMENTS, ACHIEVEMENT_TYPE } from "../const/achievement";
 
 const initialState = {
-  achievedNames: [], //localStorageから取ってくる
+  achievedNames: [],
   continuousCollectCount: 0,
   totalCollectCount: 0,
 };
@@ -12,7 +12,11 @@ export const achievementsSlice = createSlice({
   initialState,
   reducers: {
     continuousCountUp: (state, action) => {
-      state.continuousCollectCount += 1;
+      if (action.payload === 1) {
+        state.continuousCollectCount += 1;
+      } else {
+        state.continuousCollectCount *= 0;
+      }
     },
     totalCollectCountUp: (state, action) => {
       state.totalCollectCount += action.payload; // 渡された引数だけtotalCollectCountが増える
