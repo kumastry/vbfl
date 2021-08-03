@@ -49,24 +49,19 @@ const App = () => {
     (state) => state.achievements
   );
   const dispatch = useDispatch();
-<<<<<<< HEAD
-  const [urlState, setUrlState] = useState('');
-  window.onunload = function() {
+  const [urlState, setUrlState] = useState("");
+  window.onunload = function () {
     // IE以外用。ここは空でOKです
   };
-  window.onpageshow = function(event) {
+  window.onpageshow = function (event) {
     if (event.persisted) {
-        window.location.reload();
+      window.location.reload();
     }
   };
   useEffect(() => {
-    setUrlState(window.location.pathname.split('/')[1]);
-    console.log(window.location.pathname.split('/')[1]);
-  },[]);
-=======
-  const urlState = window.location.pathname.split("/")[1];
-  console.log(urlState);
->>>>>>> a7e655ccf0328107f6ebaca75f0dce2030d41448
+    setUrlState(window.location.pathname.split("/")[1]);
+    console.log(window.location.pathname.split("/")[1]);
+  }, []);
   useEffect(() => {
     dispatch(toggleAchievement({ targetType: "collect" }));
   }, [totalCollectCount, continuousCollectCount]);
