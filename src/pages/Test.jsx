@@ -111,11 +111,11 @@ const Test = ({ match }) => {
   }, []);
 
   useEffect(() => {
-    if (wordCardsLength <= 3) {
-      setShowAlert3(true);
-    } else {
-      if (curId < wordCardsLength) {
-        if (Words.four) {
+    if (curId < wordCardsLength) {
+      if (Words.four) {
+        if (wordCardsLength <= 3) {
+          setShowAlert3(true);
+        } else {
           const targetIndex = Math.floor(Math.random() * 3);
           const targetItem = Words.reverse
             ? wordsSet[curId]["word"]
@@ -256,7 +256,7 @@ const Test = ({ match }) => {
               <>
                 <IonHeader>
                   <IonToolbar>
-                    <IonTitle>test</IonTitle>
+                    <IonTitle>result</IonTitle>
                     <IonButtons slot="start">
                       <IonButton
                         type="button"
