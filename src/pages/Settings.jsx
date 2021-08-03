@@ -7,15 +7,23 @@ import {
   IonToolbar,
   IonGrid,
   IonCard,
+  IonToggle,
+  IonList,
+  IonItem,
+  IonIcon
 } from "@ionic/react";
 import Ready from "./Ready";
 import { Route } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleAchivement } from "../slices/achievementSlice";
+import { moon } from "ionicons/icons";
 
 const Settings = () => {
   // localStorage.clear();
+  const toggleDarkModeHandler = () => {
+    document.body.classList.toggle("dark");
+  };
   const dispatch = useDispatch();
   return (
     <IonPage>
@@ -59,6 +67,17 @@ const Settings = () => {
             </ion-col>
           </ion-row>
         </IonGrid>
+        <IonList className="ion-margin-top">
+          <IonItem>
+            <IonIcon slot="start" icon={moon} />
+            <IonLabel>Dark Mode</IonLabel>
+            <IonToggle
+              slot="end"
+              name="darkMode"
+              onIonChange={toggleDarkModeHandler}
+            />
+          </IonItem>
+        </IonList>
       </IonContent>
     </IonPage>
   );
