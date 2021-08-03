@@ -5,77 +5,82 @@ import {
   IonActionSheet,
   IonCardHeader,
   IonCardTitle,
-  IonContent,
+  IonAlert,
 } from "@ionic/react";
-import { trash, share, caretForwardCircle, heart, close } from "ionicons/icons";
+import {
+  trash,
+  caretForwardCircle,
+  close,
+  codeSlashOutline,
+} from "ionicons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCard } from "../slices/cardSlice";
 import "../style/style.css";
 
 const CardsList = () => {
   const [showActionSheet, setShowActionSheet] = useState(false);
+  const [alert, setAlert] = useState(false);
   const [cid, setCid] = useState("");
-  //const history = useHistory();
   const dispatch = useDispatch();
   const wordCards = useSelector((state) => state.cards);
   const exist = wordCards.card.length ? true : false;
 
   const ActionSheet = () => {
-    // console.log("#####");
-    // console.log(cid);
     return (
-      <IonActionSheet
-        isOpen={showActionSheet}
-        onDidDismiss={() => setShowActionSheet(false)}
-        buttons={[
-          {
-            text: "Delete",
-            role: "destructive",
-            icon: trash,
-            handler: () => {
-              dispatch(deleteCard({ cid }));
+      <>
+        <IonActionSheet
+          isOpen={showActionSheet}
+          onDidDismiss={() => setShowActionSheet(false)}
+          buttons={[
+            {
+              text: "単語帳を見る",
+              icon: caretForwardCircle,
+              handler: () => {
+                window.location.href = `/tab1/words/${cid}`;
+              },
             },
-          },
-          {
-            text: "単語帳を見る",
-            icon: caretForwardCircle,
-            handler: () => {
-              window.location.href = `/tab1/words/${cid}`;
+            {
+              text: "単語テストをする",
+              icon: caretForwardCircle,
+              handler: () => {
+                window.location.href = `/ready/${cid}`;
+              },
             },
-          },
-
-          {
-            text: "単語を追加",
-            icon: caretForwardCircle,
-            handler: () => {
-              window.location.href = `/tab1/add/${cid}`;
+            {
+              text: "単語を追加",
+              icon: caretForwardCircle,
+              handler: () => {
+                window.location.href = `/tab1/add/${cid}`;
+              },
             },
-          },
-
-          {
-            text: "単語テストをする",
-            icon: caretForwardCircle,
-            handler: () => {
-              window.location.href = `/ready/${cid}`;
+            {
+              text: "単語を消す",
+              role: "destructive",
+              icon: trash,
+              handler: () => {},
             },
-          },
-
-          {
-            text: "キャンセル",
-            role: "cancel",
-            icon: close,
-          },
-        ]}
-      ></IonActionSheet>
+            {
+              text: "単語帳を消す",
+              role: "destructive",
+              icon: trash,
+              handler: () => {
+                dispatch(deleteCard({ cid }));
+              },
+            },
+            {
+              text: "キャンセル",
+              role: "cancel",
+              icon: close,
+            },
+          ]}
+        />
+      </>
     );
   };
 
   const showAct = (tid) => {
     setCid(tid);
-    console.log("$$$$$$$$$$$$$");
-    console.log(cid);
     setShowActionSheet(true);
-    console.log(cid);
   };
 
   const list = () => {
