@@ -111,7 +111,9 @@ const Cardcontent = ({ match }) => {
                       <p>
                         <br />
                       </p>
-                      <h2 style={{ fontSize: 20 }}>{data.translate}</h2>
+                      <h2 style={{ fontSize: 20, textAlign: "center" }}>
+                        {data.translate}
+                      </h2>
                     </IonCardContent>
                   </IonCard>
                 </IonSlide>

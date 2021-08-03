@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import Cardcontent from "./pages/Cardcontent";
 import AddContent from "./pages/AddContent";
 import Test from "./pages/Test";
+import DeleteCardList from "./pages/DeleteCardList";
 
 import { toggleAchievement } from "./slices/achievementSlice";
 
@@ -74,6 +75,11 @@ const App = () => {
             <Route exact path="/tab1" component={Tab1} />
             <Route exact path="/tab1/words/:cardId" component={Cardcontent} />
             <Route exact path="/tab1/add/:cardId" component={AddContent} />
+            <Route
+              exact
+              path="/tab1/delete/:cardId"
+              component={DeleteCardList}
+            />
 
             <Route exact path="/achivement">
               <Achievement />

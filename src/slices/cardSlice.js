@@ -33,8 +33,13 @@ export const cardsSlice = createSlice({
         });
       }
     },
-
-    deleteWord(state, action) {},
+    deleteWord(state, action) {
+      const { id, target } = action.payload;
+      const sliceId = state.card.findIndex((data) => {
+        return data.id === id;
+      });
+      state.card[sliceId].content.splice(target, 1);
+    },
 
     changeRandom(state, action) {
       const id = action.payload;
@@ -71,6 +76,7 @@ export const cardsSlice = createSlice({
 export const {
   addCard,
   addWord,
+  deleteWord,
   deleteCard,
   changeRandom,
   changeFour,
