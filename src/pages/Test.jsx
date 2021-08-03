@@ -20,7 +20,6 @@ import {
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useTimer } from "react-timer-hook";
 import { chevronBack, arrowForwardCircle } from "ionicons/icons";
 import { useHistory } from "react-router";
 import {
@@ -95,7 +94,6 @@ const Test = ({ match }) => {
   // 初回のみrandomがtrueなら単語帳をシャッフル
   // 初回のみreverseがtureなら裏側を選択肢リストに入れる
   useEffect(() => {
-    console.log("a");
     if (Words.random) {
       setWordsSet((prev) => shuffleArray(prev));
     }

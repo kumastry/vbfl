@@ -16,8 +16,9 @@ const ResultSet = ({ correct, wordCardsLength }) => {
       <IonGrid>
         <IonCard>
           <IonRow>
-            <IonCol className="ion-margin">
+            <IonCol>
               <IonText>正解率</IonText>
+
               <CircularProgressbar
                 value={correct}
                 maxValue={wordCardsLength}
@@ -33,14 +34,14 @@ const ResultSet = ({ correct, wordCardsLength }) => {
                 text={correct}
               />
             </IonCol>
-            <IonCol className="ion-margin">
+            {/* <IonCol className="ion-margin">
               <IonText>何か</IonText>
               <CircularProgressbar
                 value={correct}
                 maxValue={wordCardsLength}
                 text={correct}
               />
-            </IonCol>
+            </IonCol> */}
           </IonRow>
         </IonCard>
       </IonGrid>
