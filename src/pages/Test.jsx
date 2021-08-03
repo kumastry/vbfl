@@ -17,6 +17,7 @@ import {
   IonIcon,
   IonAlert,
   IonInput,
+  IonText,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +27,8 @@ import {
   totalCollectCountUp,
   continuousCountUp,
 } from "../slices/achievementSlice";
-import { PieChart, Pie, ResponsiveContainer, Cell } from "recharts";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 // goooooooooooooooood!!!!!!
 const shuffleArray = ([...array]) => {
@@ -291,25 +293,6 @@ const Test = ({ match }) => {
                       </IonCol>
                     </IonRow>
                   </IonGrid>
-                  <ResponsiveContainer width="100%" height="80%">
-                    <PieChart width={1000} height={1000}>
-                      <Pie
-                        dataKey="value"
-                        isAnimationActive={false}
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        legendType="circle"
-                        startAngle={450}
-                        endAngle={90}
-                        label
-                      >
-                        <Cell fill="#4169E1" />
-                        <Cell fill="#ff4500" />
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
                 </IonContent>
                 <IonAlert
                   isOpen={showModal}
@@ -439,37 +422,36 @@ const Test = ({ match }) => {
 
                 <IonContent fullscreen>
                   <IonGrid>
-                    <IonRow>
-                      <IonCol>
-                        <IonCard>正解数{correct}</IonCard>
-                      </IonCol>
-                      <IonCol>
-                        <IonCard>正解数{correct}</IonCard>
-                      </IonCol>
-                      <IonCol>
-                        <IonCard>正解数{correct}</IonCard>
-                      </IonCol>
-                    </IonRow>
+                    <IonCard>
+                      <IonRow>
+                        <IonCol className="ion-margin">
+                          <IonText>正解率</IonText>
+                          <CircularProgressbar
+                            value={correct}
+                            maxValue={wordCardsLength}
+                            text={`${(correct / wordCardsLength) * 100} %`}
+                          />
+                        </IonCol>
+
+                        <IonCol className="ion-margin">
+                          <IonText>何か</IonText>
+                          <CircularProgressbar
+                            value={correct}
+                            maxValue={wordCardsLength}
+                            text={correct}
+                          />
+                        </IonCol>
+                        <IonCol className="ion-margin">
+                          <IonText>何か</IonText>
+                          <CircularProgressbar
+                            value={correct}
+                            maxValue={wordCardsLength}
+                            text={correct}
+                          />
+                        </IonCol>
+                      </IonRow>
+                    </IonCard>
                   </IonGrid>
-                  <ResponsiveContainer width="100%" height="80%">
-                    <PieChart width={1000} height={1000}>
-                      <Pie
-                        dataKey="value"
-                        isAnimationActive={false}
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        legendType="circle"
-                        startAngle={450}
-                        endAngle={90}
-                        label
-                      >
-                        <Cell fill="#4169E1" />
-                        <Cell fill="#ff4500" />
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
                 </IonContent>
                 <IonAlert
                   isOpen={showModal}
