@@ -5,14 +5,8 @@ import {
   IonActionSheet,
   IonCardHeader,
   IonCardTitle,
-  IonAlert,
 } from "@ionic/react";
-import {
-  trash,
-  caretForwardCircle,
-  close,
-  codeSlashOutline,
-} from "ionicons/icons";
+import { trash, caretForwardCircle, close } from "ionicons/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCard } from "../slices/cardSlice";
 import "../style/style.css";
@@ -57,7 +51,9 @@ const CardsList = () => {
               text: "単語を消す",
               role: "destructive",
               icon: trash,
-              handler: () => {},
+              handler: () => {
+                window.location.href = `/tab1/delete/${cid}`;
+              },
             },
             {
               text: "単語帳を消す",
