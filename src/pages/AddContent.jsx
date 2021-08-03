@@ -62,7 +62,7 @@ const AddContent = ({ match }) => {
         <IonToolbar>
           <IonTitle>{Words.title}</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tab1" />
+            <IonBackButton defaultHref="/" />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
