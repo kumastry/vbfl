@@ -45,7 +45,7 @@ const MainPage = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>wordCardss</IonTitle>
+          <IonTitle>wordCards</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
