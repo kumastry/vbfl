@@ -17,10 +17,11 @@ import {
   IonIcon,
   IonAlert,
   IonInput,
+  IonItem,
 } from "@ionic/react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { chevronBack } from "ionicons/icons";
+import { chevronBack, arrowForwardCircle } from "ionicons/icons";
 import { useHistory } from "react-router";
 import {
   totalCollectCountUp,
@@ -51,6 +52,7 @@ const Test = ({ match }) => {
   const [showAlert1, setShowAlert1] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
   const [showAlert3, setShowAlert3] = useState(false);
+  const [showAlert4, setShowAlert4] = useState(false);
 
   const Id = match.params.cardId;
   const WS = useSelector((state) => state.cards.card);
@@ -121,6 +123,8 @@ const Test = ({ match }) => {
       if (Words.four) {
         if (wordCardsLength <= 3) {
           setShowAlert3(true);
+        } else if (wordCardsLength === 4) {
+          setSelectSet(shuffleArray(answerSet));
         } else {
           const targetIndex = Math.floor(Math.random() * 3);
           const targetItem = Words.reverse
@@ -223,7 +227,7 @@ const Test = ({ match }) => {
                       },
                       {
                         text: "OK",
-                        handler: () => handleLink("/"),
+                        handler: () => (window.location.href = "/"),
                       },
                     ]}
                   />
@@ -276,6 +280,31 @@ const Test = ({ match }) => {
                   correct={correct}
                   wordCardsLength={wordCardsLength}
                 />
+
+                <IonButton
+                  className="ion-margin"
+                  expand="block"
+                  onClick={() => setShowAlert4(true)}
+                >
+                  もう一度テストをする
+                </IonButton>
+                <IonAlert
+                  isOpen={showAlert4}
+                  onDidDismiss={() => setShowAlert4(false)}
+                  cssClass="my-custom-class"
+                  message={"単語テスト前の画面に戻ります。よろしいですか？"}
+                  buttons={[
+                    {
+                      text: "キャンセル",
+                      role: "cancel",
+                    },
+                    {
+                      text: "OK",
+                      handler: () => (window.location.href = `ready/${Id}`),
+                    },
+                  ]}
+                />
+
                 <IonAlert
                   isOpen={showModal}
                   onDidDismiss={() => setShowModal(false)}
@@ -288,7 +317,7 @@ const Test = ({ match }) => {
                     },
                     {
                       text: "OK",
-                      handler: () => handleLink("/"),
+                      handler: () => (window.location.href = "/"),
                     },
                   ]}
                 />
@@ -331,7 +360,7 @@ const Test = ({ match }) => {
                         </IonCardTitle>
                       </IonCardHeader>
                     </IonCard>
-                    <IonCard>
+                    <IonItem className="ion-margin">
                       <IonInput
                         value={inputText}
                         placeholder="解答を入力"
@@ -339,9 +368,22 @@ const Test = ({ match }) => {
                           setInputText(e.target.value);
                         }}
                       />
-                    </IonCard>
+                      <IonButton
+                        fill="clear"
+                        size="large"
+                        slot="end"
+                        onClick={() => {
+                          inputClickHander(
+                            Words.reverse
+                              ? wordsSet[curId]["word"]
+                              : wordsSet[curId]["translate"]
+                          );
+                        }}
+                      >
+                        <IonIcon icon={arrowForwardCircle} size="large" />
+                      </IonButton>
+                    </IonItem>
                   </IonCard>
-
                   {/* <IonProgressBar value={1}></IonProgressBar> */}
                   <IonAlert
                     isOpen={showModal}
@@ -368,19 +410,6 @@ const Test = ({ match }) => {
                     msg={`不正解... 正解数:${correct}`}
                   />
                 </IonContent>
-                <IonButton
-                  className="ion-margin"
-                  expand="block"
-                  onClick={() => {
-                    inputClickHander(
-                      Words.reverse
-                        ? wordsSet[curId]["word"]
-                        : wordsSet[curId]["translate"]
-                    );
-                  }}
-                >
-                  awesome button!
-                </IonButton>
               </>
             );
           } else {
@@ -401,10 +430,35 @@ const Test = ({ match }) => {
                     </IonButtons>
                   </IonToolbar>
                 </IonHeader>
+
                 <ResultSet
                   correct={correct}
                   wordCardsLength={wordCardsLength}
                 />
+                <IonButton
+                  className="ion-margin"
+                  expand="block"
+                  onClick={() => setShowAlert4(true)}
+                >
+                  もう一度テストをする
+                </IonButton>
+                <IonAlert
+                  isOpen={showAlert4}
+                  onDidDismiss={() => setShowAlert4(false)}
+                  cssClass="my-custom-class"
+                  message={"単語テスト前の画面に戻ります。よろしいですか？"}
+                  buttons={[
+                    {
+                      text: "キャンセル",
+                      role: "cancel",
+                    },
+                    {
+                      text: "OK",
+                      handler: () => (window.location.href = `ready/${Id}`),
+                    },
+                  ]}
+                />
+
                 <IonAlert
                   isOpen={showModal}
                   onDidDismiss={() => setShowModal(false)}
@@ -417,7 +471,7 @@ const Test = ({ match }) => {
                     },
                     {
                       text: "OK",
-                      handler: () => handleLink("/"),
+                      handler: () => (window.location.href = "/"),
                     },
                   ]}
                 />
