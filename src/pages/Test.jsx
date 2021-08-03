@@ -58,6 +58,8 @@ const Test = ({ match }) => {
   const [selectSet, setSelectSet] = useState([]);
   const [inputText, setInputText] = useState("");
 
+  const [errorSet, setErrorSet] = useState([]);
+
   const history = useHistory();
   const handleLink = (path) => history.push(path);
 
@@ -70,13 +72,14 @@ const Test = ({ match }) => {
     window.location.href = `ready/${Id}`;
   };
 
-  const testClickHander = (nowText, selectText) => {
+  const testClickHander = (content, nowText, selectText) => {
     setInputText("");
     if (nowText === selectText) {
       setCorrect(correct + 1);
       dispatch(continuousCountUp(1));
       switchWord(setShowAlert1, setcurId, curId);
     } else {
+      setErrorSet([...errorSet, content]);
       dispatch(continuousCountUp(-1));
       switchWord(setShowAlert2, setcurId, curId);
     }
@@ -178,6 +181,9 @@ const Test = ({ match }) => {
                               <IonCard
                                 onClick={() =>
                                   testClickHander(
+                                    Words.reverse
+                                      ? wordsSet[curId]["translate"]
+                                      : wordsSet[curId]["word"],
                                     data,
                                     Words.reverse
                                       ? wordsSet[curId]["word"]
@@ -262,6 +268,7 @@ const Test = ({ match }) => {
                 </IonHeader>
 
                 <ResultSet
+                  errorSet={errorSet}
                   correct={correct}
                   wordCardsLength={wordCardsLength}
                 />
@@ -359,6 +366,9 @@ const Test = ({ match }) => {
                         slot="end"
                         onClick={() => {
                           testClickHander(
+                            Words.reverse
+                              ? wordsSet[curId]["translate"]
+                              : wordsSet[curId]["word"],
                             inputText,
                             Words.reverse
                               ? wordsSet[curId]["word"]
@@ -417,6 +427,7 @@ const Test = ({ match }) => {
                 </IonHeader>
 
                 <ResultSet
+                  errorSet={errorSet}
                   correct={correct}
                   wordCardsLength={wordCardsLength}
                 />
