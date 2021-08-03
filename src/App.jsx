@@ -1,4 +1,4 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   IonApp,
@@ -12,7 +12,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { IonReactRouter } from "@ionic/react-router";
-import { pricetags, ribbon, build } from "ionicons/icons";
+import { pricetags, ribbon } from "ionicons/icons";
 import Tab1 from "./pages/Main";
 import Achievement from "./pages/Achievement";
 
