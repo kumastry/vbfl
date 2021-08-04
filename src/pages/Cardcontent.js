@@ -98,7 +98,7 @@ const Cardcontent = ({ match }) => {
             {Words.content.map((data, index) => {
               return (
                 <IonSlide key={index}>
-                  <IonCard style={{ width: "90%", height: "70%" }} {...bind}>
+                  <IonCard style={{ width: "90%", height: "70%" }}>
                     <IonCardContent>
                       <h1
                         style={{
