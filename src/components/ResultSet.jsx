@@ -22,7 +22,7 @@ const ResultSet = ({ errorSet, correct, wordCardsLength }) => {
               <CircularProgressbar
                 value={correct}
                 maxValue={wordCardsLength}
-                text={`${(correct / wordCardsLength) * 100} %`}
+                text={`${Math.floor((correct / wordCardsLength) * 100)} %`}
               />
             </IonCol>
 
