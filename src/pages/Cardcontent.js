@@ -42,14 +42,9 @@ const Cardcontent = ({ match }) => {
     setShowActionSheet(true);
   }, []);
   const [enabled, setEnabled] = useState(true);
-  const [showActionSheet, setShowActionSheet] = useState(false);
+  
 
-  const bind = useLongPress(enabled ? callback : null, {
-    threshold: 300,
-    captureEvent: true,
-    cancelOnMovement: false,
-    detect: "both",
-  });
+ 
 
   if (typeof Words === "undefined") {
     Words = {
@@ -98,7 +93,7 @@ const Cardcontent = ({ match }) => {
             {Words.content.map((data, index) => {
               return (
                 <IonSlide key={index}>
-                  <IonCard style={{ width: "90%", height: "70%" }} {...bind}>
+                  <IonCard style={{ width: "90%", height: "70%" }} >
                     <IonCardContent>
                       <h1
                         style={{
