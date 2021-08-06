@@ -11,7 +11,6 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonCardHeader,
-  IonProgressBar,
   IonButtons,
   IonButton,
   IonIcon,
@@ -38,15 +37,6 @@ const shuffleArray = ([...array]) => {
   return array;
 };
 
-// 単語解答後の処理
-const switchWord = (setShowAlert, setCurId, curId) => {
-  setShowAlert(true);
-  setTimeout(() => {
-    setShowAlert(false);
-    setCurId(curId + 1);
-  }, 1000);
-};
-
 const Test = ({ match }) => {
   // localStorage.clear();
   const [showAlert1, setShowAlert1] = useState(false);
@@ -63,12 +53,12 @@ const Test = ({ match }) => {
   const [curId, setcurId] = useState(0);
   const [correct, setCorrect] = useState(0);
   const wordCardsLength = Words.content.length;
-
   const [answerSet, setAnswerSet] = useState([]);
   const [wordsSet, setWordsSet] = useState(Words.content);
   const [selectSet, setSelectSet] = useState([]);
-
   const [inputText, setInputText] = useState("");
+
+  const [errorSet, setErrorSet] = useState([]);
 
   const history = useHistory();
   const handleLink = (path) => history.push(path);
@@ -82,27 +72,26 @@ const Test = ({ match }) => {
     window.location.href = `ready/${Id}`;
   };
 
-  const fourClickHander = (nowText, selectText) => {
+  const testClickHander = (content, nowText, selectText) => {
+    setInputText("");
     if (nowText === selectText) {
       setCorrect(correct + 1);
       dispatch(continuousCountUp(1));
       switchWord(setShowAlert1, setcurId, curId);
     } else {
+      setErrorSet([...errorSet, content]);
       dispatch(continuousCountUp(-1));
       switchWord(setShowAlert2, setcurId, curId);
     }
   };
 
-  const inputClickHander = (nowText) => {
-    setInputText("");
-    if (inputText === nowText) {
-      setCorrect(correct + 1);
-      dispatch(continuousCountUp(1));
-      switchWord(setShowAlert1, setcurId, curId);
-    } else {
-      dispatch(continuousCountUp(-1));
-      switchWord(setShowAlert2, setcurId, curId);
-    }
+  // 単語解答後の処理
+  const switchWord = (setShowAlert, setCurId, curId) => {
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+      setCurId(curId + 1);
+    }, 1000);
   };
 
   // 初回のみrandomがtrueなら単語帳をシャッフル
@@ -187,12 +176,14 @@ const Test = ({ match }) => {
                     <IonGrid>
                       <IonRow>
                         {selectSet.map((data, index) => {
-                          // console.log(data);
                           return (
                             <IonCol key={index} size="6">
                               <IonCard
                                 onClick={() =>
-                                  fourClickHander(
+                                  testClickHander(
+                                    Words.reverse
+                                      ? wordsSet[curId]["translate"]
+                                      : wordsSet[curId]["word"],
                                     data,
                                     Words.reverse
                                       ? wordsSet[curId]["word"]
@@ -277,6 +268,7 @@ const Test = ({ match }) => {
                 </IonHeader>
 
                 <ResultSet
+                  errorSet={errorSet}
                   correct={correct}
                   wordCardsLength={wordCardsLength}
                 />
@@ -373,7 +365,11 @@ const Test = ({ match }) => {
                         size="large"
                         slot="end"
                         onClick={() => {
-                          inputClickHander(
+                          testClickHander(
+                            Words.reverse
+                              ? wordsSet[curId]["translate"]
+                              : wordsSet[curId]["word"],
+                            inputText,
                             Words.reverse
                               ? wordsSet[curId]["word"]
                               : wordsSet[curId]["translate"]
@@ -384,7 +380,6 @@ const Test = ({ match }) => {
                       </IonButton>
                     </IonItem>
                   </IonCard>
-                  {/* <IonProgressBar value={1}></IonProgressBar> */}
                   <IonAlert
                     isOpen={showModal}
                     onDidDismiss={() => setShowModal(false)}
@@ -432,6 +427,7 @@ const Test = ({ match }) => {
                 </IonHeader>
 
                 <ResultSet
+                  errorSet={errorSet}
                   correct={correct}
                   wordCardsLength={wordCardsLength}
                 />
