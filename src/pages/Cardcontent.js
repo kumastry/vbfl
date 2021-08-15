@@ -1,5 +1,5 @@
 import {
-  IonActionSheet,
+ 
   IonSlides,
   IonSlide,
   IonPage,
@@ -14,8 +14,8 @@ import {
   IonLoading,
 } from "@ionic/react";
 import { useSelector } from "react-redux";
-import { useLongPress } from "use-long-press";
-import { useState, useCallback, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 
 const SlideOpts = {
   initialSlide: 0,
@@ -38,18 +38,10 @@ const Cardcontent = ({ match }) => {
       />
     );
   };
-  const callback = useCallback((event) => {
-    setShowActionSheet(true);
-  }, []);
-  const [enabled, setEnabled] = useState(true);
-  const [showActionSheet, setShowActionSheet] = useState(false);
 
-  const bind = useLongPress(enabled ? callback : null, {
-    threshold: 300,
-    captureEvent: true,
-    cancelOnMovement: false,
-    detect: "both",
-  });
+  
+
+
 
   if (typeof Words === "undefined") {
     Words = {
@@ -64,7 +56,7 @@ const Cardcontent = ({ match }) => {
       content: [{ word: "add word", translate: "単語を追加してください" }],
     };
   }
-  console.log(Words);
+  //console.log(Words);
 
   useEffect(() => {
     console.log(Words.content.length);
@@ -124,28 +116,7 @@ const Cardcontent = ({ match }) => {
           <Loading />
         )}
 
-        <IonActionSheet
-          isOpen={showActionSheet}
-          onDidDismiss={() => setShowActionSheet(false)}
-          cssClass="my-custom-class"
-          buttons={[
-            {
-              text: "単語を変更する",
-              role: "destructive",
-
-              handler: () => {
-                console.log("Delete clicked");
-              },
-            },
-            {
-              text: "単語を消す",
-
-              handler: () => {
-                console.log("Share clicked");
-              },
-            },
-          ]}
-        ></IonActionSheet>
+    
       </IonContent>
     </IonPage>
   );
