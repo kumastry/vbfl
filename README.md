@@ -1,3 +1,7 @@
+
+# URL
+https://rakutang.netlify.app/
+
 # このアプリでできること
 <ul>
     <li>・単語帳の作成や英単語の追加</li>
@@ -6,5 +10,3 @@
     <li>・作成した単語帳に対して、四択や記述式でクイズ</li>
     <li>・クイズを解き続けることで実績を解除</li>
 </ul>
-
-url:https://rakutang.netlify.app/
