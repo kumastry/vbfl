@@ -56,7 +56,7 @@ const Cardcontent = ({ match }) => {
       content: [{ word: "add word", translate: "単語を追加してください" }],
     };
   }
-  console.log(Words);
+  //console.log(Words);
 
   useEffect(() => {
     console.log(Words.content.length);
